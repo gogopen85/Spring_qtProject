@@ -18,18 +18,22 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
-        for(Cookie c : cookies){
-            if(c.getName().equals(HEADER_AUTH)){
-                if(c.getValue() != null && jwtService.isUsable(c.getValue())){
-                    c.setMaxAge(60*60*1);
-                    response.addCookie(c);
-                    return true;
-                }else{
-                    return false;
+        if(cookies != null) {
+            for(Cookie c : cookies){
+                if(c.getName().equals(HEADER_AUTH)){
+                    if(c.getValue() != null && jwtService.isUsable(c.getValue())){
+                        c.setMaxAge(60*60*1);
+                        response.addCookie(c);
+                        return true;
+                    }else{
+                        throw new UnauthorizedException();
+                    }
                 }
             }
+        } else {
+            throw new UnauthorizedException();
         }
-        return false;
+        throw new UnauthorizedException();
     }
 
 }

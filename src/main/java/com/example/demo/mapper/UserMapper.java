@@ -9,6 +9,14 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface UserMapper {
 
+    int saveUser(UserRegistration userRegistration);
+    User getUser(String username);
+
+
     String checkUserPassword(UserRegistration user);
+
+
+
+
 
 }

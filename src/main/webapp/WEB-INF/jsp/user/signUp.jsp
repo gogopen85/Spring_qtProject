@@ -41,7 +41,7 @@
 
             <button type="button" id ="registerSubmit" class="btn btn-primary block full-width m-b">등록</button>
             <p class="text-muted text-center"><small>Already have an account?</small></p>
-            <a class="btn btn-sm btn-white btn-block" href="login">Login</a>
+            <a class="btn btn-sm btn-white btn-block" href="/login">Login</a>
         </form>
     </div>
 </div>
@@ -66,14 +66,14 @@
             var data_ = $('#register').serializeObject();
             $.ajax({
                 type: 'post',
-                url: '/User/register',
+                url: '/user/register',
                 dataType : 'json',
                 contentType: 'application/json; charset=utf-8',
                 data : data_,
             }).always(function(data){
                 if(data.status==200){
                     alert(data.responseText);
-                    window.location.replace('/User/login');
+                    window.location.replace('/login');
                 }else{
                     alert(data.responseText);
                 }

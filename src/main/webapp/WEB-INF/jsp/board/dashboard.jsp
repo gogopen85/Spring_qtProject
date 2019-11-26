@@ -33,8 +33,7 @@
                             <h2>
                                 2,160 results found for: <span class="text-navy">“Admin Theme”</span>
                             </h2>
-                            <small>Request time  (0.23 seconds)</small>
-
+                            <br/>
                             <div class="search-form">
                                 <form action="index.html" method="get">
                                     <div class="input-group">

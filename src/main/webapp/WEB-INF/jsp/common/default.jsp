@@ -9,10 +9,10 @@
 </head>
 <body>
 <div id="wrapper">
-    <%@ include file="./common/navi.jsp" %>
+    <%@ include file="../common/navi.jsp" %>
 
     <div id="page-wrapper" class="gray-bg">
-        <%@ include file="./common/upperNavi.jsp" %>
+        <%@ include file="../common/upperNavi.jsp" %>
 
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
@@ -26,7 +26,7 @@
         </div>
 <%--
 
-메
+메인
 
 --%>
 
@@ -34,7 +34,7 @@
 </div>
 </div>
 </body>
-<%@ include file="./common/lib.jsp" %>
+<%@ include file="../common/lib.jsp" %>
 
 <script>
     $(document).ready(function(){

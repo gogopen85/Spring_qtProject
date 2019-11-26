@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 @RestController
-@RequestMapping("/User/")
+@RequestMapping("/user/")
 public class UserController {
 
     @Autowired

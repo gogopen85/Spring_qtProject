@@ -17,20 +17,19 @@ import java.util.regex.Pattern;
 @Controller
 public class HomeController {
 
+    @RequestMapping("/")
+    public String root(){ return "/main"; }
+
     @RequestMapping("/main")
     public String main(){
         return "/main";
     }
 
-    @RequestMapping("/User/signUp")
-    public String register(){
-        return "/user/signUp";
-    }
+    @RequestMapping("/signUp")
+    public String register(){ return "/user/signUp"; }
 
-    @RequestMapping("/User/login")
-    public String login(){
-        return "/user/login";
-    }
+    @RequestMapping("/login")
+    public String login(){ return "/user/login"; }
 
     @RequestMapping("/board")
     public String board(){
@@ -42,5 +41,8 @@ public class HomeController {
         return "/board/dashboard";
     }
 
-
+    @RequestMapping("/project/myProject")
+    public String myProject(){
+        return "/project/myProject";
+    }
 }
