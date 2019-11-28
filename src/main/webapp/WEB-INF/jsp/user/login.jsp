@@ -16,8 +16,7 @@
 
     <div class="loginColumns animated fadeInDown">
         <div class="row">
-
-            <div class="col-md-6 font-bold" align="center">
+            <div class="col-lg-6 font-bold" align="center">
                 <br/>
                 <img src="/resources/images/220px-Ajou_Univ_Ui.png" >
 
@@ -28,9 +27,9 @@
 
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-lg-6">
                 <div class="ibox-content">
-                    <form class="m-t" id="loginForm">
+                    <form class="m-t-lg" id="loginForm">
                         <div class="form-group">
                             <input id="username" name="username" class="form-control" placeholder="Username" required="">
                         </div>
@@ -39,13 +38,6 @@
                         </div>
                         <button type="button" id="loginSubmit" class="btn btn-primary block full-width m-b">Login</button>
 
-                        <a href="#">
-                            <small>Forgot password?</small>
-                        </a>
-
-                        <p class="text-muted text-center">
-                            <small>Do not have an account?</small>
-                        </p>
                         <a class="btn btn-sm btn-white btn-block" href="/signUp">Create an account</a>
                     </form>
                     <p class="m-t">
@@ -55,6 +47,10 @@
             </div>
         </div>
         <hr/>
+
+
+
+
     </div>
 </body>
 <script type="text/javascript" src="/resources/js/jquery-3.1.1.min.js"></script>
@@ -71,7 +67,7 @@
             var returnVal = true;
 
             var data_ = $('#loginForm').serializeObject();
-            console.log(data_)
+
             $.ajax({
                 type: 'post',
                 url: '/user/login',

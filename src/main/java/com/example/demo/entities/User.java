@@ -3,6 +3,7 @@ package com.example.demo.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -14,15 +15,18 @@ public class User {
     private Long id;
     private String username;
     private String name;
+    private Date createdAt;
+
 
     @JsonIgnore
     private String password;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Role> roles;
 
-    public User(String username, String name, String password, List<Role> roles) {
+    public User(String username, String name, Date createdAt, String password, List<Role> roles) {
         this.username = username;
         this.name = name;
+        this.createdAt = createdAt;
         this.password = password;
         this.roles = roles;
     }
@@ -68,6 +72,14 @@ public class User {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override

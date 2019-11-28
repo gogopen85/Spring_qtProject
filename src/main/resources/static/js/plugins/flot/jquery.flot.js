@@ -602,7 +602,7 @@ Licensed under the MIT license.
                     minBorderMargin: null, // in pixels, null means taken from points radius
                     markings: null, // array of ranges or fn: axes -> array of ranges
                     markingsColor: "#f4f4f4",
-                    markingsLineWidth: 2,
+                    markingsLineWidth: 1,
                     // interactive stuff
                     clickable: false,
                     hoverable: false,
@@ -1948,9 +1948,11 @@ Licensed under the MIT license.
 
             // draw markings
             var markings = options.grid.markings;
+
             if (markings) {
                 if ($.isFunction(markings)) {
                     axes = plot.getAxes();
+
                     // xmin etc. is backwards compatibility, to be
                     // removed in the future
                     axes.xmin = axes.xaxis.min;

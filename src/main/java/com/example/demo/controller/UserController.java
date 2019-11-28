@@ -14,6 +14,7 @@ import com.example.demo.service.UserService;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -45,7 +46,7 @@ public class UserController {
         if(pattern.matcher(userRegistration.getUsername()).find())
             return res.resBadRequest("아이디에는 특수문자가 포함될 수 없습니다.");
 
-        userService.save(new User(userRegistration.getUsername(), userRegistration.getName(),userRegistration.getPassword(), Arrays.asList(new Role("USER"), new Role("ACTUATOR"))));
+        userService.save(new User(userRegistration.getUsername(), userRegistration.getName(), new Date(), userRegistration.getPassword(), Arrays.asList(new Role("USER"), new Role("ACTUATOR"))));
 
         return res.resSuccess("가입완료");
     }

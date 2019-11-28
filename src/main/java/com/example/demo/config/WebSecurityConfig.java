@@ -24,15 +24,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(customUserDetailsService)
-                .passwordEncoder(passwordEncoder);
+            .userDetailsService(customUserDetailsService)
+            .passwordEncoder(passwordEncoder);
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/*").permitAll();
+        http.csrf()
+            .disable()
+            .authorizeRequests()
+            .antMatchers("/*").permitAll();
     }
 
     @Bean

@@ -9,14 +9,12 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface UserMapper {
 
-    int saveUser(UserRegistration userRegistration);
+    int saveUser(UserRegistration UserRegistration);
     User getUser(String username);
+    User updateUser(UserRegistration UserRegistration);
 
 
     String checkUserPassword(UserRegistration user);
-
-
-
 
 
 }

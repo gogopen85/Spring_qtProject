@@ -14,9 +14,11 @@
 <script type="text/javascript" src="/resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script type="text/javascript" src="/resources/js/inspinia.js"></script>
 
-<!-- Morris -->
-<script type="text/javascript" src="/resources/js/plugins/morris/raphael-2.1.0.min.js"></script>
-<script type="text/javascript" src="/resources/js/plugins/morris/morris.js"></script>
 
-<!-- Morris demo data-->
-<script type="text/javascript" src="/resources/js/demo/morris-demo.js"></script>
+
+
+<!-- Flot -->
+<script type="text/javascript" src="/resources/js/plugins/flot/jquery.flot.js"></script>
+
+<script type="text/javascript" src="/resources/js/plugins/flot/jquery.flot.resize.js"></script>
+

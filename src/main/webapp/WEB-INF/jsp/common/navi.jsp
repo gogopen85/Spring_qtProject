@@ -4,10 +4,10 @@
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <img alt="image" class="rounded-circle" />
+                    <%--<img alt="image" class="rounded-circle" />--%>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <span class="block m-t-xs font-bold">David Williams</span>
-                        <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
+                        <span class="block m-t-xs font-bold">Junghyun Do</span>
+                        <span class="text-muted text-xs block">SW Developer <b class="caret"></b></span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a class="dropdown-item" href="profile.html">Profile</a></li>
@@ -44,9 +44,9 @@
                     <li><a href="graph_sparkline.html">Sparkline Charts</a></li>--%>
                 </ul>
             </li>
-            <li>
+            <%--<li>
                 <a href="layouts.html"><i class="fa fa-diamond"></i> <span class="nav-label">Layouts</span></a>
-            </li>
+            </li>--%>
         </ul>
     </div>
 </nav>

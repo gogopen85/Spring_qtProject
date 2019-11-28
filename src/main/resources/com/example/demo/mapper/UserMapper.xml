@@ -13,6 +13,29 @@
             username = #{username}
     </select>
 
+    <select id="getUser"
+            resultType="com.example.demo.entities.User">
+        SELECT
+            username, name
+        From
+            qtProject.[user]
+        WHERE
+            username = #{username}
+        AND
+            leftedAt = null
+    </select>
+
+    <update id="updateUser"
+            parameterType="com.example.demo.pojos.UserRegistration">
+        UPDATE
+          qtProject.[user]
+        SET
+          name = #{name}, password=#{password}, leftedAt = #{leftedAt}
+        WHERE
+          username = #{username}
+    </update>
+
+
 
 
 </mapper>
