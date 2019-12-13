@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.service.UserService;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Date;
@@ -52,13 +53,23 @@ public class UserController {
     }
 
     @PostMapping(value="/login")
-    public ResponseEntity<?> login(@RequestBody UserRegistration user, HttpServletResponse response){
+    public ResponseEntity<?> login(@RequestBody UserRegistration user, HttpServletRequest request, HttpServletResponse response){
+
+        Cookie[] cookies = request.getCookies();
+        if(cookies!=null)
+            for (int i = 0; i < cookies.length; i++) {
+                cookies[i].setMaxAge(0);
+            }
         if(userService.checkUserPassword(user) == true){
             String token = jwtService.create("login",user,"login");
             Cookie cookie = new Cookie("Authorization",token);
             cookie.setMaxAge(60*60*1);
             cookie.setPath("/");
+            Cookie cookie1 = new Cookie("user",user.getUsername());
+            cookie1.setMaxAge(60*60*1);
+            cookie1.setPath("/");
             response.addCookie(cookie);
+            response.addCookie(cookie1);
             return res.resSuccess(token);
         }
         return res.resBadRequest("로그인 정보를 확인해주세요");

@@ -58,7 +58,7 @@
 <script type="text/javascript" src="/resources/js/bootstrap.js"></script>
 <script type="text/javascript" src="/resources/js/plugins/iCheck/icheck.min.js"></script>
 <script type="text/javascript" src="/resources/js/common.js"></script>
-<script type="text/javascript" src="/resources/js/jquery.cookie.js"></script>
+
 
 <script>
     $(document).ready(function(){

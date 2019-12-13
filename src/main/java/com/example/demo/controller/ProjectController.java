@@ -1,16 +1,21 @@
 package com.example.demo.controller;
 
 import com.example.demo.common.CommonResponseEntity;
+import com.example.demo.common.UnauthorizedException;
 import com.example.demo.entities.Markings;
 import com.example.demo.pojos.UserRegistration;
 import com.example.demo.service.ProjectService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,19 +27,28 @@ public class ProjectController {
 
     CommonResponseEntity res = new CommonResponseEntity();
 
-    @GetMapping(value = "getData/{id}")
-    public ResponseEntity<?> getData(@PathVariable long id){
-        return res.resSuccess(projectService.getData(id));
+    @GetMapping(value = "getData/{userId}")
+    public ResponseEntity<?> getData(@PathVariable int userId, HttpServletRequest request){
+        Map map = new HashMap();
+        map.put("userId", userId);
+        return res.resSuccess(projectService.getData(map));
     }
 
-    @GetMapping(value = "getMarkings/{id}")
-    public ResponseEntity<?> getMarkings(@PathVariable long id){
-        return res.resSuccess(projectService.getMarking(id));
+    @GetMapping(value = "getMarkings/{dataId}/{userId}")
+    public ResponseEntity<?> getMarkings(@PathVariable long dataId, @PathVariable int userId){
+
+        Map map = new HashMap();
+
+        map.put("userId",userId);
+        map.put("dataId",dataId);
+
+        return res.resSuccess(projectService.getMarking(map));
     }
 
     @PostMapping(value="insertMarkings")
-    public ResponseEntity<?> insertMarkings(@RequestBody Map map, HttpServletResponse response){
-        projectService.insertMarkings(Integer.parseInt(map.get("addMarkings").toString()));
+    public ResponseEntity<?> insertMarkings(@RequestBody Map map){
+
+        projectService.insertMarkings(map);
         return res.resSuccess("success");
     }
 

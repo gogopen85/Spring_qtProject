@@ -4,6 +4,7 @@
 
 <mapper namespace="com.example.demo.mapper.UserMapper">
     <select id="checkUserPassword"
+            parameterType="com.example.demo.pojos.UserRegistration"
             resultType="String">
         SELECT
             password

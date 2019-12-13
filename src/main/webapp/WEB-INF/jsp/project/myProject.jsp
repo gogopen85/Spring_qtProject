@@ -62,41 +62,39 @@
 
 <script>
     $(document).ready(function(){
-        var add =[]
         var x = [];
         var y = [];
+        var addMarkings = [];
 
-        var addMarkings;
-        function euroFormatter(v, axis) {
-            return v.toFixed(axis.tickDecimals) + "€";
+        getData()
+
+        function getData(){
+            $.ajax({
+                type: 'get',
+                url: '/project/getData/' + $.cookie("user"),
+                dataType : 'json',
+                contentType: 'application/json; charset=utf-8',
+            }).done(function(data){
+                x = data.data;
+                var point = data.point
+                for(var i=0; i<point.length; i++) {
+                    addMarkings.push(point[i])
+                }
+                doPlot("right");
+            })
         }
 
-        $.ajax({
-            type: 'get',
-            url: '/project/getData/1',
-            dataType : 'json',
-            contentType: 'application/json; charset=utf-8',
-        }).done(function(data){
-            x = data;
-            doPlot("right");
-        })
-
-
-
         function doPlot(position) {
-            if(add.length!=0){
-                markings.push(add)
-            }
+
             var customPlot = $.plot($("#flot-line-chart-multi"), [{
                 data: x,
                 label: "data"
             }, {
                 data: y,
-                label: "y",
+                label: "markings",
                 yaxis: 2
             }], {
                 yaxes: [ {
-                    // align if we are to the right
                     alignTicksWithAxis: position == "right" ? 1 : null,
                     position: position,
                 }],
@@ -124,20 +122,13 @@
 
             });
 
-             $.ajax({
-                    type: 'get',
-                    url: '/project/getMarkings/1',
-                    dataType : 'json',
-                    contentType: 'application/json; charset=utf-8',
-                }).done(function(data){
-                    for(var i=0; i<data.length; i++) {
-                        customPlot.getOptions().grid.markings.push({ xaxis: { from: data[i], to: data[i] }, color: "#ff8888" });
-                    }
-                    customPlot.setupGrid();
-                    customPlot.draw();
-                })
-            if(addMarkings != undefined){
-                customPlot.getOptions().grid.markings.push({ xaxis: { from: addMarkings, to: addMarkings }, color: "#ff8888" });
+            if(addMarkings != undefined) {
+                for (var i = 0; i < addMarkings.length; i++) {
+                    customPlot.getOptions().grid.markings.push({
+                        xaxis: {from: addMarkings[i], to: addMarkings[i]},
+                        color: "#ff8888"
+                    });
+                }
                 customPlot.setupGrid();
                 customPlot.draw();
             }
@@ -150,20 +141,20 @@
         });
         $("#flot-line-chart-multi").bind("plotclick", function (event, pos, item) {
             if (item) {
-                addMarkings = item.datapoint[0]
+
                 // $.plot($("#flot-line-chart-multi").getOptions().grid.markings.push({ xaxis: { from: item.datapoint[0], to: item.datapoint[0] }, color: "#ff8888" }))
                 // add = [[item.datapoint[0] , item.datapoint[1] ], [item.datapoint[0] + 0.1 , item.datapoint[1]]]
 
                 $.ajax({
                     type: 'post',
-                    url: '/project/insertMarkings',
+                    url: '/project/insertMarkings/',
                     dataType : 'json',
-                    data : JSON.stringify({ addMarkings : addMarkings}),
+                    data : JSON.stringify({ point : item.datapoint[0], userId: $.cookie("user")}),
                     contentType : "application/json; charset=UTF-8",
                 }).always(function(data){
                     doPlot("right");
                     if(data.status==200){
-
+                        getData()
                     }else{
 
                     }

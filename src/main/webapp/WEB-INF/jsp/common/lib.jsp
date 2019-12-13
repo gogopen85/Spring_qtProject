@@ -14,7 +14,7 @@
 <script type="text/javascript" src="/resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script type="text/javascript" src="/resources/js/inspinia.js"></script>
 
-
+<script type="text/javascript" src="/resources/js/jquery.cookie.js"></script>
 
 
 <!-- Flot -->

@@ -3,24 +3,53 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.ProjectMapper">
+
+    <select id="getDataCount"
+            parameterType="Integer"
+            resultType="Integer">
+        SELECT
+          COUNT(*)
+        FROM
+          qtProject.[DataInfo] as di
+        Inner JOIN
+          qtProject.[Data] as da
+        ON
+          di.dataId = da.dataId
+        WHERE
+          di.userId = #{userId}
+    </select>
+
     <select id="getData"
+            parameterType="java.util.Map"
             resultType="Integer">
         SELECT
             point
         FROM
             qtProject.[Data]
+        WHERE
+            dataId = #{dataId}
     </select>
 
     <select id="getMarkings"
+            parameterType="java.util.Map"
             resultType="Integer">
         SELECT
             point
         FROM
             qtProject.[Markings]
+        WHERE
+            dataId = #{dataId}
+        AND
+            userId = #{userId}
     </select>
 
-    <insert id="insertMarkings">
-        INSERT INTO qtProject.[Markings] (dataId,point) VALUES(1,#{point})
+
+    <insert id="insertMarkings" parameterType="java.util.Map">
+        INSERT
+            INTO
+              qtProject.[Markings] (dataId,point,pointId,userId)
+            VALUES
+              (#{dataId},#{point},#{pointId},#{userId})
     </insert>
 
 

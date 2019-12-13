@@ -6,11 +6,15 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Mapper
 public interface ProjectMapper {
-    List<Integer> getData(long id);
-    List<Integer> getMarkings(long id);
-    int insertMarkings(int point);
+    List<Integer> getData(Map map);
+    List<Integer> getMarkings(Map map);
+    int insertMarkings(Map map);
+    int getDataCount(int userId);
+
+
 }

@@ -13,7 +13,9 @@ public class Markings {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long dataId;
+    private int pointId;
     private int point;
+    private String userId;
 
     public Long getId() {
         return id;
@@ -39,8 +41,37 @@ public class Markings {
         this.point = point;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public String setUserId(String userId) {
+        return this.userId = userId;
+    }
+
+    public int getPointId() {
+        return pointId;
+    }
+
+    public void setPointId(int pointId) {
+        this.pointId = pointId;
+    }
+
     public Markings(Long dataId, int point) {
         this.dataId = dataId;
         this.point = point;
+    }
+
+    public Markings(Long dataId, int point, String userId) {
+        this.dataId = dataId;
+        this.point = point;
+        this.userId = userId;
+    }
+
+    public Markings(Long dataId, int pointId, int point, String userId) {
+        this.dataId = dataId;
+        this.pointId = pointId;
+        this.point = point;
+        this.userId = userId;
     }
 }
