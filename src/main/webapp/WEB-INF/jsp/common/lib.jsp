@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/animate.css" >
 <link rel="stylesheet" type="text/css" href="/resources/css/style.css" >
 <link rel="stylesheet" type="text/css" href="/resources/css/plugins/morris/morris-0.4.3.min.css" >
+<link rel="stylesheet" type="text/css" href="/resources/css/plugins/steps/jquery.steps.css" >
 
 <script type="text/javascript" src="/resources/js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/popper.min.js"></script>
@@ -16,8 +17,8 @@
 
 <script type="text/javascript" src="/resources/js/jquery.cookie.js"></script>
 
+<script type="text/javascript" src="/resources/js/plugins/steps/jquery.steps.min.js"></script>
 
-<!-- Flot -->
 <script type="text/javascript" src="/resources/js/plugins/flot/jquery.flot.js"></script>
 
 <script type="text/javascript" src="/resources/js/plugins/flot/jquery.flot.resize.js"></script>

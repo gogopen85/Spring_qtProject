@@ -36,19 +36,21 @@ public class ProjectController {
 
     @GetMapping(value = "getMarkings/{dataId}/{userId}")
     public ResponseEntity<?> getMarkings(@PathVariable long dataId, @PathVariable int userId){
-
         Map map = new HashMap();
-
         map.put("userId",userId);
         map.put("dataId",dataId);
-
         return res.resSuccess(projectService.getMarking(map));
     }
 
     @PostMapping(value="insertMarkings")
     public ResponseEntity<?> insertMarkings(@RequestBody Map map){
-
         projectService.insertMarkings(map);
+        return res.resSuccess("success");
+    }
+
+    @PostMapping(value="deleteMarkings")
+    public ResponseEntity<?> deleteMarkings(@RequestBody Map map){
+        projectService.deleteMarkings(map);
         return res.resSuccess("success");
     }
 

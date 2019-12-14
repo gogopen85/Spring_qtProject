@@ -18,7 +18,9 @@ public class ProjectService {
 
     public Map getData(Map map){
         int dataInfoCnt = projectMapper.getDataCount(Integer.parseInt(map.get("userId").toString()));
-        map.put("dataId",dataInfoCnt+1);
+        if(map.get("dataId") == null || map.get("dataId").equals("") ){
+            map.put("dataId",dataInfoCnt+1);
+        }
         List<Integer> list = projectMapper.getData(map);
         List<int []> list_ = new ArrayList<>();
         for(int i = 0 ; i<list.size(); i++ ){
@@ -27,6 +29,7 @@ public class ProjectService {
         }
         map.put("data", list_);
         map.put("point", projectMapper.getMarkings(map));
+        map.put("markingsInfo", projectMapper.getMarkingsInfo());
 
         return map;
     }
@@ -37,11 +40,11 @@ public class ProjectService {
     }
 
     public int insertMarkings(Map map){
-
-        int dataInfoCnt = projectMapper.getDataCount(Integer.parseInt(map.get("userId").toString()));
-        map.put("dataId",dataInfoCnt+1);
-        map.put("pointId",0);
         return projectMapper.insertMarkings(map);
+    }
+
+    public int deleteMarkings(Map map){
+        return projectMapper.deleteMarkings(map);
     }
 
 

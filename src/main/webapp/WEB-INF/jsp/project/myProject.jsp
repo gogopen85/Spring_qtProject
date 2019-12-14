@@ -23,11 +23,13 @@
         </div>
 
         <div class="wrapper wrapper-content animated fadeInRight" >
+
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox ">
                         <div class="ibox-title">
-                            <h5>Multiple Axes Line Chart Example </h5>
+                            <h5 id="dataInfoText"> </h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -47,6 +49,9 @@
                             </div>
                         </div>
                         <div class="ibox-content">
+                            <div id="pointInfo">
+
+                            </div>
                             <div class="flot-chart">
                                 <div class="flot-chart-content" id="flot-line-chart-multi"></div>
                             </div>
@@ -65,6 +70,8 @@
         var x = [];
         var y = [];
         var addMarkings = [];
+        var dataId;
+        var pointId=1;
 
         getData()
 
@@ -75,7 +82,26 @@
                 dataType : 'json',
                 contentType: 'application/json; charset=utf-8',
             }).done(function(data){
+                var html = ''
                 x = data.data;
+                dataId = data.dataId
+                addMarkings = [];
+                pointId = data.point.length
+                for(var i = 0; i < data.markingsInfo.length; i ++) {
+                    var btnClass = ""
+                    if(i == data.point.length){
+                        btnClass = "btn btn-w-m btn-primary"
+                    }else {
+                        btnClass = "btn btn-w-m btn-default"
+                    }
+
+                    html += '<button type="button" class="'+ btnClass +'" id="markinsInfo_'+ data.markingsInfo[i].id+ '">'+data.markingsInfo[i].name+'</button>'
+                }
+
+                $("#pointInfo").html(html)
+
+                $("#dataInfoText").html(dataId + ' 번 데이터 입니다.');
+
                 var point = data.point
                 for(var i=0; i<point.length; i++) {
                     addMarkings.push(point[i])
@@ -141,30 +167,61 @@
         });
         $("#flot-line-chart-multi").bind("plotclick", function (event, pos, item) {
             if (item) {
+                if(addMarkings.length >= 9){
+                    alert("모든 마킹이 완료된 페이지입니다.")
+                }else{
+                    $.ajax({
+                        type: 'post',
+                        url: '/project/insertMarkings',
+                        dataType : 'json',
+                        data : JSON.stringify({ point : item.datapoint[0], userId: $.cookie("user") , dataId: dataId, pointId:pointId + 1 }),
+                        contentType : "application/json; charset=UTF-8",
+                    }).always(function(data){
+                        doPlot("right");
+                        if(data.status==200){
+                            getData()
+                        }else{
 
-                // $.plot($("#flot-line-chart-multi").getOptions().grid.markings.push({ xaxis: { from: item.datapoint[0], to: item.datapoint[0] }, color: "#ff8888" }))
-                // add = [[item.datapoint[0] , item.datapoint[1] ], [item.datapoint[0] + 0.1 , item.datapoint[1]]]
+                        }
+                    });
 
+                  /*$("button").click(function() {
+                        doPlot($(this).text());
+                    });*/
+                }
+
+            }
+        });
+        $(this).bind("contextmenu", function(e) {
+            e.preventDefault();
+        });
+        $(document).mousedown(function(e){
+            if( e.button == 2 ) {
                 $.ajax({
                     type: 'post',
-                    url: '/project/insertMarkings/',
+                    url: '/project/deleteMarkings',
                     dataType : 'json',
-                    data : JSON.stringify({ point : item.datapoint[0], userId: $.cookie("user")}),
+                    data : JSON.stringify({ userId: $.cookie("user") , dataId: dataId, pointId : pointId}),
                     contentType : "application/json; charset=UTF-8",
                 }).always(function(data){
                     doPlot("right");
                     if(data.status==200){
                         getData()
+                        return false;
                     }else{
 
                     }
                 });
-
-                $("button").click(function() {
-                    doPlot($(this).text());
-                });
             }
+            return true;
         });
+
+
+
+
+
+
+
     });
 
 

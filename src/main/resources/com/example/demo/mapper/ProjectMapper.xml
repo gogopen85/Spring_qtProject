@@ -44,7 +44,8 @@
     </select>
 
 
-    <insert id="insertMarkings" parameterType="java.util.Map">
+    <insert id="insertMarkings"
+            parameterType="java.util.Map">
         INSERT
             INTO
               qtProject.[Markings] (dataId,point,pointId,userId)
@@ -53,5 +54,24 @@
     </insert>
 
 
+    <select id="getMarkingsInfo"
+            resultType="java.util.Map">
+        SELECT
+               *
+        FROM
+             qtProject.[MarkingsInfo]
+    </select>
 
+    <delete id="deleteMarkings"
+            parameterType="java.util.Map">
+        DELETE
+        FROM
+            qtProject.[Markings]
+        WHERE
+            dataId = #{dataId}
+        AND
+            userId = #{userId}
+        AND
+            pointId = #{pointId}
+    </delete>
 </mapper>
