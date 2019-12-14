@@ -54,4 +54,10 @@ public class ProjectController {
         return res.resSuccess("success");
     }
 
+    @PostMapping(value="confirmData")
+    public ResponseEntity<?> confirmData(@RequestBody Map map){
+        projectService.confirmData(map);
+        return res.resSuccess("success");
+    }
+
 }

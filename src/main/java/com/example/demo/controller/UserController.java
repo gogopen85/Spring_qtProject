@@ -32,7 +32,7 @@ public class UserController {
 
     CommonResponseEntity res = new CommonResponseEntity();
 
-    @PostMapping(value = "/register")
+    @PostMapping(value = "register")
     public ResponseEntity<?> register(@RequestBody UserRegistration userRegistration){
         if("".equals(userRegistration.getName()))
             return res.resBadRequest("이름은 공백이 될 수 없습니다.");
@@ -52,7 +52,7 @@ public class UserController {
         return res.resSuccess("가입완료");
     }
 
-    @PostMapping(value="/login")
+    @PostMapping(value="login")
     public ResponseEntity<?> login(@RequestBody UserRegistration user, HttpServletRequest request, HttpServletResponse response){
 
         Cookie[] cookies = request.getCookies();
@@ -66,7 +66,7 @@ public class UserController {
             cookie.setMaxAge(60*60*1);
             cookie.setPath("/");
             Cookie cookie1 = new Cookie("user",user.getUsername());
-            cookie1.setMaxAge(60*60*1);
+            cookie1.setMaxAge(60*60*24);
             cookie1.setPath("/");
             response.addCookie(cookie);
             response.addCookie(cookie1);
@@ -75,7 +75,9 @@ public class UserController {
         return res.resBadRequest("로그인 정보를 확인해주세요");
     }
 
-    @GetMapping(value = "/users")
+
+
+    @GetMapping(value = "users")
     public List<User> users(){
         return userService.getAllUsers();
     }

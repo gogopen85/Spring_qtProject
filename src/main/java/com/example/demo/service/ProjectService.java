@@ -47,6 +47,8 @@ public class ProjectService {
         return projectMapper.deleteMarkings(map);
     }
 
-
+    public int confirmData(Map map){
+        return projectMapper.confirmData(map);
+    }
 
 }

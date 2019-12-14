@@ -31,21 +31,19 @@
                         <div class="ibox-title">
                             <h5 id="dataInfoText"> </h5>
                             <div class="ibox-tools">
-                                <a class="collapse-link">
+                                <%--<a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
-                                </a>
+                                </a>--%>
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                     <i class="fa fa-wrench"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#" class="dropdown-item">Config option 1</a>
-                                    </li>
-                                    <li><a href="#" class="dropdown-item">Config option 2</a>
-                                    </li>
+                                    <li><a href="#" id="confirmData" class="dropdown-item">저장하기</a></li>
+
                                 </ul>
-                                <a class="close-link">
+                                <%--<a class="close-link">
                                     <i class="fa fa-times"></i>
-                                </a>
+                                </a>--%>
                             </div>
                         </div>
                         <div class="ibox-content">
@@ -201,7 +199,7 @@
                     type: 'post',
                     url: '/project/deleteMarkings',
                     dataType : 'json',
-                    data : JSON.stringify({ userId: $.cookie("user") , dataId: dataId, pointId : pointId}),
+                    data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, pointId : pointId}),
                     contentType : "application/json; charset=UTF-8",
                 }).always(function(data){
                     doPlot("right");
@@ -217,7 +215,23 @@
         });
 
 
+        $("#confirmData").click(function(){
+            $.ajax({
+                type: 'post',
+                url: '/project/confirmData',
+                dataType : 'json',
+                data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, status: 1}),
+                contentType : "application/json; charset=UTF-8",
+            }).always(function(data){
+                doPlot("right");
+                if(data.status==200){
+                    getData()
+                    return false;
+                }else{
 
+                }
+            });
+        })
 
 
 

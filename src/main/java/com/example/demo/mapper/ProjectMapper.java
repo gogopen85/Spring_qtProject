@@ -17,6 +17,7 @@ public interface ProjectMapper {
     int insertMarkings(Map map);
     int getDataCount(int userId);
     int deleteMarkings(Map map);
+    int confirmData(Map map);
 
 
 }

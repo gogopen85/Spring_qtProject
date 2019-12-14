@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -44,5 +46,17 @@ public class HomeController {
     @RequestMapping("/project/myProject")
     public String myProject(){
         return "/project/myProject";
+    }
+
+    @RequestMapping(value="/user/logout")
+    public String logout(HttpServletRequest request){
+
+        Cookie[] cookies = request.getCookies();
+        if(cookies!=null)
+            for (int i = 0; i < cookies.length; i++) {
+                cookies[i].setMaxAge(0);
+            }
+
+        return "/user/login";
     }
 }

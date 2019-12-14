@@ -8,15 +8,11 @@
             parameterType="Integer"
             resultType="Integer">
         SELECT
-          COUNT(*)
+          COUNT(dataId)
         FROM
-          qtProject.[DataInfo] as di
-        Inner JOIN
-          qtProject.[Data] as da
-        ON
-          di.dataId = da.dataId
+          qtProject.[DataInfo]
         WHERE
-          di.userId = #{userId}
+          userId = #{userId}
     </select>
 
     <select id="getData"
@@ -74,4 +70,15 @@
         AND
             pointId = #{pointId}
     </delete>
+
+    <insert id="confirmData"
+            parameterType="java.util.Map">
+        INSERT
+            INTO
+              qtProject.[dataInfo] (dataId,status,userId)
+            VALUES
+              (#{dataId},#{status},#{userId})
+    </insert>
+
+
 </mapper>
