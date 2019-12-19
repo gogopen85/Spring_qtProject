@@ -6,9 +6,13 @@ import com.example.demo.mapper.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Service
 public class ProjectService {
@@ -17,7 +21,8 @@ public class ProjectService {
     private ProjectMapper projectMapper;
 
     public Map getData(Map map){
-        int dataInfoCnt = projectMapper.getDataCount(Integer.parseInt(map.get("userId").toString()));
+        
+        int dataInfoCnt = projectMapper.getDataInfoCount(map.get("userId").toString());
         if(map.get("dataId") == null || map.get("dataId").equals("") ){
             map.put("dataId",dataInfoCnt+1);
         }
@@ -49,6 +54,48 @@ public class ProjectService {
 
     public int confirmData(Map map){
         return projectMapper.confirmData(map);
+    }
+
+    public int insertCsvFile(){
+        List<List<String>> ret = new ArrayList<List<String>>();
+        BufferedReader br = null;
+
+        try{
+            br = Files.newBufferedReader(Paths.get("/Users/evidnet/Desktop/sample31.csv"));
+            Charset.forName("UTF-8");
+            String line = "";
+            int dataId = 0;
+            while((line = br.readLine()) != null){
+                dataId = projectMapper.getDataId();
+
+                List<String> tmpList = new ArrayList<String>();
+                String array[] = line.split(",");
+                tmpList = Arrays.asList(array);
+                Map map = new HashMap();
+                map.put("dataId",dataId+1);
+                for(int i=0;i < tmpList.size(); i ++){
+                    map.put("point",tmpList.get(i));
+                    projectMapper.insertData(map);
+                }
+
+                System.out.println(tmpList);
+                ret.add(tmpList);
+            }
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch(IOException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(br != null){
+                    br.close();
+                }
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        return 0;
     }
 
 }

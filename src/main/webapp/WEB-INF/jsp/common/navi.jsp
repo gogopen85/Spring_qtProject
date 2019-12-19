@@ -56,7 +56,7 @@
     </div>
 </nav>
 <%--네비 영역--%>
-<%@ include file="../common/lib.jsp" %>
+
 <script>
     $(document).ready(function(){
         $("#myId").html($.cookie("user") + ' 님 반갑습니다.')

@@ -4,8 +4,8 @@
 
 <mapper namespace="com.example.demo.mapper.ProjectMapper">
 
-    <select id="getDataCount"
-            parameterType="Integer"
+    <select id="getDataInfoCount"
+            parameterType="String"
             resultType="Integer">
         SELECT
           COUNT(dataId)
@@ -24,6 +24,22 @@
             qtProject.[Data]
         WHERE
             dataId = #{dataId}
+    </select>
+
+    <insert id="insertData"
+            parameterType="java.util.Map">
+        INSERT
+        INTO
+            qtProject.[Data]
+            (dataId, point) VALUES (#{dataId},#{point})
+    </insert>
+
+    <select id="getDataId"
+            resultType="Integer">
+        SELECT
+            ISNULL(max(dataId),0)
+        FROM
+            qtProject.[Data]
     </select>
 
     <select id="getMarkings"
