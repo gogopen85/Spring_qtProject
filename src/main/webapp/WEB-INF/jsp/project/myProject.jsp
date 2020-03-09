@@ -78,6 +78,7 @@
                 x = data.data;
                 dataId = data.dataId
                 addMarkings = [];
+                console.log(data)
                 pointId = data.point.length
                 for(var i = 0; i < data.markingsInfo.length; i ++) {
                     var btnClass = ""

@@ -11,16 +11,11 @@ public class Data {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int dataId;
+    private String dataId;
     private int point;
 
-    public Data(Long id, int dataId, int point) {
-        this.id = id;
+    public Data(String dataId, int point) {
         this.dataId = dataId;
-        this.point = point;
-    }
-
-    public Data(int point) {
         this.point = point;
     }
 
@@ -32,11 +27,11 @@ public class Data {
         this.id = id;
     }
 
-    public int getDataId() {
+    public String getDataId() {
         return dataId;
     }
 
-    public void setDataId(int dataId) {
+    public void setDataId(String dataId) {
         this.dataId = dataId;
     }
 
@@ -46,14 +41,5 @@ public class Data {
 
     public void setPoint(int point) {
         this.point = point;
-    }
-
-    @Override
-    public String toString() {
-        return "Data{" +
-                "id=" + id +
-                ", dataId=" + dataId +
-                ", point=" + point +
-                '}';
     }
 }

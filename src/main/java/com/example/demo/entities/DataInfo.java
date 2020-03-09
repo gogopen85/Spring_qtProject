@@ -11,14 +11,14 @@ public class DataInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int dataId;
+    private String dataId;
     private String userId;
     private int status;
 
     public DataInfo() {
     }
 
-    public DataInfo(int dataId, String userId, int status) {
+    public DataInfo(String dataId, String userId, int status) {
         this.dataId = dataId;
         this.userId = userId;
         this.status = status;
@@ -32,11 +32,11 @@ public class DataInfo {
         this.id = id;
     }
 
-    public int getDataId() {
+    public String getDataId() {
         return dataId;
     }
 
-    public void setDataId(int dataId) {
+    public void setDataId(String dataId) {
         this.dataId = dataId;
     }
 
