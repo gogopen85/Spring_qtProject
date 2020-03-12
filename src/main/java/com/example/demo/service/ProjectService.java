@@ -39,7 +39,7 @@ public class ProjectService {
             map.put("dataId",wi.getId());
             //System.out.println(projectMapper.checkIsValid(map));
             //if(projectMapper.checkIsValid(map)==0){
-                List<Integer> list = getCsvFile(map.get("dataId").toString());
+                List<Integer> list = getCsvFile(files.get(i).toString());
                 List<int []> list_ = new ArrayList<>();
                 for(int j = 0 ; j<list.size(); j++ ){
                     System.out.println(list.get(j));
@@ -97,6 +97,7 @@ public class ProjectService {
         BufferedReader br = null;
         List<Integer> tmpList = new ArrayList<Integer>();
         try{
+            System.out.println(filePath);
             br = Files.newBufferedReader(Paths.get(filePath));
             Charset.forName("UTF-8");
             String line = "";

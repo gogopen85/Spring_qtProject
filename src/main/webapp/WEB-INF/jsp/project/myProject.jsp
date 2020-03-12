@@ -35,7 +35,7 @@
                                 </a>
                                     <ul class="dropdown-menu dropdown-user">
                                         <li><a href="#" id="confirmData" class="dropdown-item">저장하기</a></li>
-
+                                        <li><a href="#" id="refuseData" class="dropdown-item">식별불가</a></li>
                                     </ul>
 
                             </div>
@@ -78,7 +78,7 @@
                 x = data.data;
                 dataId = data.dataId
                 addMarkings = [];
-                console.log(data)
+
                 pointId = data.point.length
                 for(var i = 0; i < data.markingsInfo.length; i ++) {
                     var btnClass = ""
@@ -158,6 +158,7 @@
         $("button").click(function() {
             doPlot($(this).text());
         });
+
         $("#flot-line-chart-multi").bind("plotclick", function (event, pos, item) {
             if (item) {
                 if(addMarkings.length >= 9){
@@ -229,6 +230,23 @@
         })
 
 
+        $("#refuseData").click(function(){
+            $.ajax({
+                type: 'post',
+                url: '/project/confirmData',
+                dataType : 'json',
+                data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, status: 99}),
+                contentType : "application/json; charset=UTF-8",
+            }).always(function(data){
+                doPlot("right");
+                if(data.status==200){
+                    getData()
+                    return false;
+                }else{
+
+                }
+            });
+        })
 
 
     });

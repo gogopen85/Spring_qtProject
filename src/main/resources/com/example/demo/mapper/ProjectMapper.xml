@@ -107,16 +107,14 @@
             userId = #{userId}
     </select>
 
-    <select id="getPath" resultType="string" >
+    <select id="getPath" resultType="com.example.demo.entities.Waveform_info" >
         SELECT
-            filepath
+            TOP 1 *
         FROM
-            waveform_info as wi
+            qtProject.[waveform_info] as wi
         LEFT JOIN
-            datainfo as di
+            qtProject.[datainfo] as di
         ON wi.id = di.dataId
-        WHERE di.id = null
-        LIMIT 1
     </select>
 
 

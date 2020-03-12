@@ -58,8 +58,6 @@
 <%--네비 영역--%>
 
 <script>
-    $(document).ready(function(){
-        $("#myId").html($.cookie("user") + ' 님 반갑습니다.')
-    });
+
 </script>
 
