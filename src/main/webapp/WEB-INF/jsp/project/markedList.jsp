@@ -70,7 +70,7 @@
         function getData(){
             $.ajax({
                 type: 'get',
-                url: '/project/getData/' + $.cookie("user") + '/0',
+                url: '/project/getData/' + $.cookie("user") +'/1',
                 dataType : 'json',
                 contentType: 'application/json; charset=utf-8',
             }).done(function(data){
@@ -168,7 +168,7 @@
                         type: 'post',
                         url: '/project/insertMarkings',
                         dataType : 'json',
-                        data : JSON.stringify({ point : item.datapoint[0], userId: $.cookie("user") , dataId: dataId, pointId:pointId + 1, pageNo: 0 }),
+                        data : JSON.stringify({ point : item.datapoint[0], userId: $.cookie("user") , dataId: dataId, pointId:pointId + 1, pageNo:1 }),
                         contentType : "application/json; charset=UTF-8",
                     }).always(function(data){
                         doPlot("right");
@@ -195,7 +195,7 @@
                     type: 'post',
                     url: '/project/deleteMarkings',
                     dataType : 'json',
-                    data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, pointId : pointId, pageNo: 0}),
+                    data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, pointId : pointId, pageNo: 1 }),
                     contentType : "application/json; charset=UTF-8",
                 }).always(function(data){
                     doPlot("right");

@@ -27,10 +27,11 @@ public class ProjectController {
 
     CommonResponseEntity res = new CommonResponseEntity();
 
-    @GetMapping(value = "getData/{userId}")
-    public ResponseEntity<?> getData(@PathVariable String userId, HttpServletRequest request){
+    @GetMapping(value = "getData/{userId}/{pageNo}")
+    public ResponseEntity<?> getData(@PathVariable String userId, @PathVariable String pageNo,HttpServletRequest request){
         Map map = new HashMap();
         map.put("userId", userId);
+        map.put("pageNo", pageNo);
         return res.resSuccess(projectService.getData(map));
     }
 

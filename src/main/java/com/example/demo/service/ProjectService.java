@@ -34,58 +34,48 @@ public class ProjectService {
         List<File> files = (List<File>) FileUtils.listFiles(new File(wi.getFilepath()), null, true);
 
         for(int i=0; i<files.size();i++){
-            System.out.println(files.get(i));
-
             map.put("dataId",wi.getId());
-            //System.out.println(projectMapper.checkIsValid(map));
-            //if(projectMapper.checkIsValid(map)==0){
                 List<Integer> list = getCsvFile(files.get(i).toString());
                 List<int []> list_ = new ArrayList<>();
                 for(int j = 0 ; j<list.size(); j++ ){
-                    System.out.println(list.get(j));
                     int temp[] = {j, list.get(j)};
                     list_.add(j, temp);
                 }
 
                 map.put("data", list_);
-                map.put("point", "");
-                map.put("markingsInfo", "");
-                //map.put("point", projectMapper.getMarkings(map));
-                //map.put("markingsInfo", projectMapper.getMarkingsInfo());
+                map.put("point", projectMapper.getMarkings(map));
+                map.put("markingsInfo", projectMapper.getMarkingsInfo());
                 return map;
-            //}
-
         }
-
-        /*int dataInfoCnt = projectMapper.getDataInfoCount(map.get("userId").toString());
-        if(map.get("dataId") == null || map.get("dataId").equals("") ){
-            map.put("dataId",dataInfoCnt+1);
-        }*/
-        /*List<Integer> list = projectMapper.getData(map);
-        List<int []> list_ = new ArrayList<>();
-        for(int i = 0 ; i<list.size(); i++ ){
-            int temp[] = {i, list.get(i)};
-            list_.add(i, temp);
-        }
-        map.put("data", list_);
-        map.put("point", projectMapper.getMarkings(map));
-        map.put("markingsInfo", projectMapper.getMarkingsInfo());*/
-
         return map;
     }
 
     public List<Integer> getMarking(Map map){
-
         List<Integer> list = projectMapper.getMarkings(map);
         return list;
     }
 
     public int insertMarkings(Map map){
-        return projectMapper.insertMarkings(map);
+
+        if(map.get("pageNo").equals("2")){
+            //projectMapper.updateMarkings(map);
+            //confirm user 일 경우 기존 컬럼 중 deleted 인 것을 업데이트
+        } else {
+            return projectMapper.insertMarkings(map);
+        }
+
+        return 0;
     }
 
     public int deleteMarkings(Map map){
-        return projectMapper.deleteMarkings(map);
+        if(map.get("pageNo").equals("2")){
+            //projectMapper.updateMarkings(map);
+            //confirm user 일 경우 기존 컬럼 중 deleted 를 업데이트
+        } else {
+            return projectMapper.deleteMarkings(map);
+        }
+
+        return 0;
     }
 
     public int confirmData(Map map){
@@ -97,14 +87,12 @@ public class ProjectService {
         BufferedReader br = null;
         List<Integer> tmpList = new ArrayList<Integer>();
         try{
-            System.out.println(filePath);
             br = Files.newBufferedReader(Paths.get(filePath));
             Charset.forName("UTF-8");
             String line = "";
 
             while((line = br.readLine()) != null){
                 for (String field :line.split(",")){
-                    System.out.println(Integer.parseInt(field));
                     tmpList.add(Integer.parseInt(field));
                 }
             }

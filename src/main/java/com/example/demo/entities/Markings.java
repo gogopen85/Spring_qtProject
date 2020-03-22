@@ -1,6 +1,8 @@
 package com.example.demo.entities;
 
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +18,9 @@ public class Markings {
     private int pointId;
     private int point;
     private String userId;
+    private String confirmUserId;
+    @ColumnDefault("0")
+    private int deleted;
 
     public Long getId() {
         return id;
@@ -57,6 +62,22 @@ public class Markings {
         this.userId = userId;
     }
 
+    public String getConfirmUserId() {
+        return confirmUserId;
+    }
+
+    public void setConfirmUserId(String confirmUserId) {
+        this.confirmUserId = confirmUserId;
+    }
+
+    public int getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
+    }
+
     public Markings(String dataId, int point) {
         this.dataId = dataId;
         this.point = point;
@@ -73,5 +94,34 @@ public class Markings {
         this.pointId = pointId;
         this.point = point;
         this.userId = userId;
+    }
+
+    public Markings(Long id, int pointId, String userId, String confirmUserId) {
+        this.id = id;
+        this.pointId = pointId;
+        this.userId = userId;
+        this.confirmUserId = confirmUserId;
+    }
+
+    public Markings(Long id, String dataId, int pointId, int point, String userId, String confirmUserId) {
+        this.id = id;
+        this.dataId = dataId;
+        this.pointId = pointId;
+        this.point = point;
+        this.userId = userId;
+        this.confirmUserId = confirmUserId;
+    }
+
+    public Markings(Long id, String dataId, int pointId, int point, String userId, String confirmUserId, int deleted) {
+        this.id = id;
+        this.dataId = dataId;
+        this.pointId = pointId;
+        this.point = point;
+        this.userId = userId;
+        this.confirmUserId = confirmUserId;
+        this.deleted = deleted;
+    }
+
+    public Markings() {
     }
 }

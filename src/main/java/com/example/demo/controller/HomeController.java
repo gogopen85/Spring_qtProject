@@ -48,6 +48,16 @@ public class HomeController {
         return "/project/myProject";
     }
 
+    @RequestMapping("/project/markedList")
+    public String markedList(){
+        return "/project/markedList";
+    }
+
+    @RequestMapping("/project/confirmProject")
+    public String confirmProject(){
+        return "/project/confirmProject";
+    }
+
     @RequestMapping(value="/user/logout")
     public String logout(HttpServletRequest request){
 

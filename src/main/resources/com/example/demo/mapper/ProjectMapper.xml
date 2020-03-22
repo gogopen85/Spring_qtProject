@@ -53,6 +53,13 @@
             dataId = #{dataId}
         AND
             userId = #{userId}
+        AND
+            <if test='pageNo.equals("0") or pageNo.equals("1")'>
+                deleted = 0
+            </if>
+            <if test='pageNo.equals("0") or pageNo.equals("2")'>
+                deleted = 1
+            </if>
     </select>
 
 
@@ -107,14 +114,22 @@
             userId = #{userId}
     </select>
 
-    <select id="getPath" resultType="com.example.demo.entities.Waveform_info" >
+    <select id="getPath" parameterType="java.util.Map" resultType="com.example.demo.entities.Waveform_info" >
         SELECT
             TOP 1 *
         FROM
-            qtProject.[waveform_info] as wi
-        LEFT JOIN
-            qtProject.[datainfo] as di
-        ON wi.id = di.dataId
+            qtProject.[waveform_info]
+        WHERE
+             1=1
+            <if test='pageNo.equals("0")'>
+                and id not in (select dataId from qtProject.[dataInfo] where userId = #{userId} and status in (1,99))
+            </if>
+            <if test='pageNo.equals("1")'>
+                and id in (select dataId from qtProject.[dataInfo] where userId = #{userId} and status in (1,99))
+            </if>
+            <if test='pageNo.equals("2")'>
+                and id in (select dataId from qtProject.[dataInfo] where status in (1,99))
+            </if>
     </select>
 
 

@@ -39,7 +39,7 @@
                 <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Project</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href="/project/myProject">Marking Workspace</a></li>
-
+                    <li><a href="/project/markedList">Marked project</a></li>
                     <%--<li class="active"><a href="graph_morris.html">Morris.js Charts</a></li>
                     <li><a href="graph_rickshaw.html">Rickshaw Charts</a></li>
                     <li><a href="graph_chartjs.html">Chart.js</a></li>
