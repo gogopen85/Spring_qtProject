@@ -70,7 +70,7 @@
         function getData(){
             $.ajax({
                 type: 'get',
-                url: '/project/getData/' + $.cookie("user") +'/1',
+                url: '/project/getData/' + $.cookie("user") + '/1',
                 dataType : 'json',
                 contentType: 'application/json; charset=utf-8',
             }).done(function(data){
@@ -78,7 +78,6 @@
                 x = data.data;
                 dataId = data.dataId
                 addMarkings = [];
-
                 pointId = data.point.length
                 for(var i = 0; i < data.markingsInfo.length; i ++) {
                     var btnClass = ""
@@ -97,11 +96,12 @@
 
                 var point = data.point
                 for(var i=0; i<point.length; i++) {
-                    addMarkings.push(point[i])
+                    addMarkings.push(data.point[i].point)
                 }
                 doPlot("right");
             })
         }
+
 
         function doPlot(position) {
 

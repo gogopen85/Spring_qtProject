@@ -29,12 +29,16 @@ public class ProjectService {
     public Map getData(Map map){
 
         //project Folder path
-        Waveform_info wi = projectMapper.getPath(map);
+        Map wi = projectMapper.getPath(map);
 
-        List<File> files = (List<File>) FileUtils.listFiles(new File(wi.getFilepath()), null, true);
+        if(wi.get("userId") != null && !wi.get("userId").toString().equals("")){
+            map.put("checkedUserId",wi.get("userId"));
+        }
+
+        List<File> files = (List<File>) FileUtils.listFiles(new File(wi.get("filepath").toString()), null, true);
 
         for(int i=0; i<files.size();i++){
-            map.put("dataId",wi.getId());
+            map.put("dataId",wi.get("id"));
                 List<Integer> list = getCsvFile(files.get(i).toString());
                 List<int []> list_ = new ArrayList<>();
                 for(int j = 0 ; j<list.size(); j++ ){
@@ -50,32 +54,32 @@ public class ProjectService {
         return map;
     }
 
-    public List<Integer> getMarking(Map map){
-        List<Integer> list = projectMapper.getMarkings(map);
+    public List<Markings> getMarking(Map map){
+        List<Markings> list = projectMapper.getMarkings(map);
         return list;
     }
 
     public int insertMarkings(Map map){
-
-        if(map.get("pageNo").equals("2")){
-            //projectMapper.updateMarkings(map);
-            //confirm user 일 경우 기존 컬럼 중 deleted 인 것을 업데이트
+        if(Integer.parseInt(map.get("pageNo").toString())==2){
+            map.put("pageNo","count");
+            List<Markings> list = projectMapper.getMarkings(map);
+            map.put("pageNo","2");
+            if(list.size() <= Integer.parseInt(map.get("pointId").toString()) && Integer.parseInt(map.get("pointId").toString())!=1) {
+                return projectMapper.insertMarkings(map);
+            } else {
+                return projectMapper.updateMarkings(map);
+            }
         } else {
             return projectMapper.insertMarkings(map);
         }
-
-        return 0;
     }
 
     public int deleteMarkings(Map map){
-        if(map.get("pageNo").equals("2")){
-            //projectMapper.updateMarkings(map);
-            //confirm user 일 경우 기존 컬럼 중 deleted 를 업데이트
+        if(Integer.parseInt(map.get("pageNo").toString())==2){
+            return projectMapper.deleteMarkingsConfirm(map);
         } else {
             return projectMapper.deleteMarkings(map);
         }
-
-        return 0;
     }
 
     public int confirmData(Map map){

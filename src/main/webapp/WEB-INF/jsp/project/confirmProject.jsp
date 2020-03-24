@@ -64,13 +64,14 @@
         var addMarkings = [];
         var dataId;
         var pointId=1;
+        var checkedUserId=0;
 
         getData()
 
         function getData(){
             $.ajax({
                 type: 'get',
-                url: '/project/getData/' + $.cookie("user") +'/2',
+                url: '/project/getData/' + $.cookie("user") + '/2',
                 dataType : 'json',
                 contentType: 'application/json; charset=utf-8',
             }).done(function(data){
@@ -78,8 +79,12 @@
                 x = data.data;
                 dataId = data.dataId
                 addMarkings = [];
-
                 pointId = data.point.length
+
+                if(pointId>0){
+                    checkedUserId = data.point[0].userId
+                }
+
                 for(var i = 0; i < data.markingsInfo.length; i ++) {
                     var btnClass = ""
                     if(i == data.point.length){
@@ -97,11 +102,12 @@
 
                 var point = data.point
                 for(var i=0; i<point.length; i++) {
-                    addMarkings.push(point[i])
+                    addMarkings.push(data.point[i].point)
                 }
                 doPlot("right");
             })
         }
+
 
         function doPlot(position) {
 
@@ -168,7 +174,7 @@
                         type: 'post',
                         url: '/project/insertMarkings',
                         dataType : 'json',
-                        data : JSON.stringify({ point : item.datapoint[0], userId: $.cookie("user") , dataId: dataId, pointId:pointId + 1, pageNo: 2 }),
+                        data : JSON.stringify({ point : item.datapoint[0], userId: $.cookie("user") , dataId: dataId, pointId:pointId + 1, pageNo: 2, checkedUserId: checkedUserId }),
                         contentType : "application/json; charset=UTF-8",
                     }).always(function(data){
                         doPlot("right");
@@ -190,12 +196,13 @@
             e.preventDefault();
         });
         $(document).mousedown(function(e){
+            console.log('working')
             if( e.button == 2 ) {
                 $.ajax({
                     type: 'post',
                     url: '/project/deleteMarkings',
                     dataType : 'json',
-                    data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, pointId : pointId, pageNo: 2}),
+                    data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, pointId : pointId, pageNo: 2, checkedUserId: checkedUserId}),
                     contentType : "application/json; charset=UTF-8",
                 }).always(function(data){
                     doPlot("right");
@@ -216,7 +223,7 @@
                 type: 'post',
                 url: '/project/confirmData',
                 dataType : 'json',
-                data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, status: 1}),
+                data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, status: 2,checkedUserId: checkedUserId}),
                 contentType : "application/json; charset=UTF-8",
             }).always(function(data){
                 doPlot("right");

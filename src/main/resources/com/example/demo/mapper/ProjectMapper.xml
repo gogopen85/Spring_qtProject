@@ -44,34 +44,74 @@
 
     <select id="getMarkings"
             parameterType="java.util.Map"
-            resultType="Integer">
+            resultType="com.example.demo.entities.Markings">
         SELECT
-            point
+            *
         FROM
             qtProject.[Markings]
         WHERE
             dataId = #{dataId}
-        AND
+        <if test='pageNo.equals("0") or pageNo.equals("1")'>
+            AND
             userId = #{userId}
-        AND
-            <if test='pageNo.equals("0") or pageNo.equals("1")'>
-                deleted = 0
-            </if>
-            <if test='pageNo.equals("0") or pageNo.equals("2")'>
-                deleted = 1
-            </if>
+            AND deleted = 0
+        </if>
+        <if test='pageNo.equals("2")'>
+            AND userId = #{checkedUserId}
+            AND deleted = 0
+        </if>
+        <if test='pageNo.equals("count")'>
+            AND userId = #{checkedUserId}
+        </if>
+
     </select>
 
 
     <insert id="insertMarkings"
-            parameterType="java.util.Map">
+                     parameterType="java.util.Map">
         INSERT
+        <if test='pageNo.equals("0") or pageNo.equals("1")'>
             INTO
-              qtProject.[Markings] (dataId,point,pointId,userId)
+            qtProject.[Markings] (dataId,point,pointId,userId)
             VALUES
-              (#{dataId},#{point},#{pointId},#{userId})
+            (#{dataId},#{point},#{pointId},#{userId})
+        </if>
+        <if test='pageNo.equals("2")'>
+            INTO
+            qtProject.[Markings] (dataId,point,pointId,userId,confirmUserId)
+                VALUES
+            (#{dataId},#{point},#{pointId},#{checkedUserId},#{userId})
+        </if>
+
     </insert>
 
+
+    <update id="deleteMarkingsConfirm"
+            parameterType="java.util.Map">
+        UPDATE
+            qtProject.[Markings]
+        SET
+            deleted=1, confirmUserId = #{userId}
+        WHERE
+            dataId = #{dataId}
+        AND
+            userId = #{checkedUserId}
+        AND
+            pointId = #{pointId}
+    </update>
+
+    <update id="updateMarkings">
+        UPDATE
+            qtProject.[Markings]
+        SET
+            deleted=0, confirmUserId = #{userId}, point =#{point}
+        WHERE
+            dataId = #{dataId}
+        AND
+            userId = #{checkedUserId}
+        AND
+            pointId = #{pointId}
+    </update>
 
     <select id="getMarkingsInfo"
             resultType="java.util.Map">
@@ -94,14 +134,13 @@
             pointId = #{pointId}
     </delete>
 
-    <insert id="confirmData"
+    <update id="confirmData"
             parameterType="java.util.Map">
-        INSERT
-            INTO
-              qtProject.[dataInfo] (dataId,status,userId)
-            VALUES
-              (#{dataId},#{status},#{userId})
-    </insert>
+        update
+              qtProject.[dataInfo]
+        set status = 2
+        where dataId = #{dataId} and userId = #{checkedUserId}
+    </update>
 
     <select id="checkIsValid"  parameterType="java.util.Map" resultType="int">
         SELECT
@@ -114,9 +153,12 @@
             userId = #{userId}
     </select>
 
-    <select id="getPath" parameterType="java.util.Map" resultType="com.example.demo.entities.Waveform_info" >
+    <select id="getPath" parameterType="java.util.Map" resultType="java.util.Map" >
         SELECT
             TOP 1 *
+        <if test='pageNo.equals("2")'>
+            ,(select userId from qtProject.[dataInfo] where status in (1,99)) as userId
+        </if>
         FROM
             qtProject.[waveform_info]
         WHERE

@@ -13,7 +13,7 @@ import java.util.Map;
 @Mapper
 public interface ProjectMapper {
     List<Integer> getData(Map map);
-    List<Integer> getMarkings(Map map);
+    List<Markings> getMarkings(Map map);
     List<Map> getMarkingsInfo();
     int insertMarkings(Map map);
     int getDataInfoCount(String userId);
@@ -22,7 +22,10 @@ public interface ProjectMapper {
     int getDataId();
     int insertData(Map map);
     int checkIsValid(Map map);
-    Waveform_info getPath(Map map);
+    int updateMarkings(Map map);
+    int deleteMarkingsConfirm(Map map);
+
+    Map getPath(Map map);
 
 
 }
