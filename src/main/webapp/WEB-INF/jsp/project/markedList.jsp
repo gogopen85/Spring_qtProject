@@ -29,15 +29,10 @@
                         <div class="ibox-title">
                             <h5 id="dataInfoText"> </h5>
                             <div class="ibox-tools">
-
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                    <ul class="dropdown-menu dropdown-user">
-                                        <li><a href="#" id="privData" class="dropdown-item">저장하기</a></li>
-                                        <li><a href="#" id="nextData" class="dropdown-item">식별불가</a></li>
-                                    </ul>
-
+                               <div class="btn-group">
+                                    <button type="button" id="privData"  class="btn btn-white btn-xs"><i  class="fa fa-chevron-left"></i></button>
+                                    <button type="button" id="nextData"  class="btn btn-white btn-xs"><i  class="fa fa-chevron-right"></i></button>
+                                </div>
                             </div>
                         </div>
                         <div class="ibox-content">
