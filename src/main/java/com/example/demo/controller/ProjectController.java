@@ -35,6 +35,15 @@ public class ProjectController {
         return res.resSuccess(projectService.getData(map));
     }
 
+    @GetMapping(value = "getMarkedData/{userId}/{pageNo}/{projectNo}")
+    public ResponseEntity<?> getData(@PathVariable String userId, @PathVariable String pageNo,@PathVariable String projectNo,HttpServletRequest request){
+        Map map = new HashMap();
+        map.put("userId", userId);
+        map.put("pageNo", pageNo);
+        map.put("projectNo",projectNo);
+        return res.resSuccess(projectService.getData(map));
+    }
+
     @GetMapping(value = "getMarkings/{dataId}/{userId}")
     public ResponseEntity<?> getMarkings(@PathVariable long dataId, @PathVariable int userId){
         Map map = new HashMap();

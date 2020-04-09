@@ -34,8 +34,8 @@
                                     <i class="fa fa-wrench"></i>
                                 </a>
                                     <ul class="dropdown-menu dropdown-user">
-                                        <li><a href="#" id="confirmData" class="dropdown-item">저장하기</a></li>
-                                        <li><a href="#" id="refuseData" class="dropdown-item">식별불가</a></li>
+                                        <li><a href="#" id="privData" class="dropdown-item">저장하기</a></li>
+                                        <li><a href="#" id="nextData" class="dropdown-item">식별불가</a></li>
                                     </ul>
 
                             </div>
@@ -64,13 +64,15 @@
         var addMarkings = [];
         var dataId;
         var pointId=1;
-
+        var projectNo = 1;
         getData()
+
+
 
         function getData(){
             $.ajax({
                 type: 'get',
-                url: '/project/getData/' + $.cookie("user") + '/1',
+                url: '/project/getMarkedData/' + $.cookie("user") + '/1/'+projectNo,
                 dataType : 'json',
                 contentType: 'application/json; charset=utf-8',
             }).done(function(data){
@@ -211,41 +213,15 @@
         });
 
 
-        $("#confirmData").click(function(){
-            $.ajax({
-                type: 'post',
-                url: '/project/confirmData',
-                dataType : 'json',
-                data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, status: 1}),
-                contentType : "application/json; charset=UTF-8",
-            }).always(function(data){
-                doPlot("right");
-                if(data.status==200){
-                    getData()
-                    return false;
-                }else{
-
-                }
-            });
+        $("#privData").click(function(){
+            projectNo = projectNo -1
+            getData()
         })
 
 
-        $("#refuseData").click(function(){
-            $.ajax({
-                type: 'post',
-                url: '/project/confirmData',
-                dataType : 'json',
-                data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, status: 99}),
-                contentType : "application/json; charset=UTF-8",
-            }).always(function(data){
-                doPlot("right");
-                if(data.status==200){
-                    getData()
-                    return false;
-                }else{
-
-                }
-            });
+        $("#nextData").click(function(){
+            projectNo = projectNo +1
+            getData()
         })
 
 

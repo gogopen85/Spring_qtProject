@@ -51,7 +51,12 @@
             qtProject.[Markings]
         WHERE
             dataId = #{dataId}
-        <if test='pageNo.equals("0") or pageNo.equals("1")'>
+        <if test='pageNo.equals("0")'>
+            AND
+            userId = #{userId}
+            AND deleted = 0
+        </if>
+        <if test='pageNo.equals("1")'>
             AND
             userId = #{userId}
             AND deleted = 0
@@ -70,21 +75,19 @@
     <insert id="insertMarkings"
                      parameterType="java.util.Map">
         INSERT
-        <if test='pageNo.equals("0") or pageNo.equals("1")'>
-            INTO
-            qtProject.[Markings] (dataId,point,pointId,userId)
+        INTO
+        qtProject.[Markings] (dataId,point,pointId,userId)
             VALUES
             (#{dataId},#{point},#{pointId},#{userId})
-        </if>
-        <if test='pageNo.equals("2")'>
-            INTO
+    </insert>
+    <insert id="insertMarkingsByConfirmUser"
+            parameterType="java.util.Map">
+        INSERT
+        INTO
             qtProject.[Markings] (dataId,point,pointId,userId,confirmUserId)
                 VALUES
             (#{dataId},#{point},#{pointId},#{checkedUserId},#{userId})
-        </if>
-
     </insert>
-
 
     <update id="deleteMarkingsConfirm"
             parameterType="java.util.Map">
@@ -134,7 +137,16 @@
             pointId = #{pointId}
     </delete>
 
-    <update id="confirmData"
+    <insert id="confirmData"
+            parameterType="java.util.Map">
+        INSERT
+            INTO
+              qtProject.[dataInfo] (dataId,status,userId)
+            VALUES
+              (#{dataId},#{status},#{userId})
+    </insert>
+
+    <update id="confirmDataByConfirmUser"
             parameterType="java.util.Map">
         update
               qtProject.[dataInfo]
@@ -157,7 +169,7 @@
         SELECT
             TOP 1 *
         <if test='pageNo.equals("2")'>
-            ,(select userId from qtProject.[dataInfo] where status in (1,99)) as userId
+            ,(select  TOP 1 userId from qtProject.[dataInfo] where status in (1,99)) as userId
         </if>
         FROM
             qtProject.[waveform_info]
@@ -167,12 +179,20 @@
                 and id not in (select dataId from qtProject.[dataInfo] where userId = #{userId} and status in (1,99))
             </if>
             <if test='pageNo.equals("1")'>
-                and id in (select dataId from qtProject.[dataInfo] where userId = #{userId} and status in (1,99))
+                and id in (select dataId FROM (select dataId,ROW_NUMBER() OVER( ORDER BY id) AS NUM from qtProject.[dataInfo] where userId = #{userId} and status in (1,99) )as  T1 where NUM=#{projectNo})
             </if>
             <if test='pageNo.equals("2")'>
-                and id in (select dataId from qtProject.[dataInfo] where status in (1,99))
+                and id in (select Top 1 dataId from qtProject.[dataInfo] where status in (1,99) and userId != #{userId})
             </if>
     </select>
 
+    <select id="getMarkedProject">
+        SELECT * FROM (
+    SELECT , *
+    FROM qtProject.DataInfo where userId = #{userId}
+    ) T1
+WHERE NUM = #{projectNo};
+
+    </select>
 
 </mapper>

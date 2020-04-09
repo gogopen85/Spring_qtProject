@@ -24,8 +24,9 @@ public interface ProjectMapper {
     int checkIsValid(Map map);
     int updateMarkings(Map map);
     int deleteMarkingsConfirm(Map map);
-
+    int insertMarkingsByConfirmUser(Map map);
     Map getPath(Map map);
+    int confirmDataByConfirmUser(Map map);
 
 
 }

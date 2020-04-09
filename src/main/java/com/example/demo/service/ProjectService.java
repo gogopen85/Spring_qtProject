@@ -65,11 +65,12 @@ public class ProjectService {
             List<Markings> list = projectMapper.getMarkings(map);
             map.put("pageNo","2");
             if(list.size() <= Integer.parseInt(map.get("pointId").toString()) && Integer.parseInt(map.get("pointId").toString())!=1) {
-                return projectMapper.insertMarkings(map);
+                return projectMapper.insertMarkingsByConfirmUser(map);
             } else {
                 return projectMapper.updateMarkings(map);
             }
         } else {
+            map.put("checkedUserId",null);
             return projectMapper.insertMarkings(map);
         }
     }
@@ -83,7 +84,13 @@ public class ProjectService {
     }
 
     public int confirmData(Map map){
-        return projectMapper.confirmData(map);
+        if(Integer.parseInt(map.get("pageNo").toString())==2){
+            return projectMapper.confirmDataByConfirmUser(map);
+        } else {
+            return projectMapper.confirmData(map);
+        }
+
+
     }
 
     public List<Integer> getCsvFile(String filePath){

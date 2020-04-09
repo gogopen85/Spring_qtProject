@@ -211,11 +211,12 @@
 
 
         $("#confirmData").click(function(){
+            console.log('dd')
             $.ajax({
                 type: 'post',
                 url: '/project/confirmData',
                 dataType : 'json',
-                data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, status: 1}),
+                data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, status: 1, pageNo: 0}),
                 contentType : "application/json; charset=UTF-8",
             }).always(function(data){
                 doPlot("right");
