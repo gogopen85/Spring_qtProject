@@ -29,7 +29,8 @@
                         <div class="ibox-title">
                             <h5 id="dataInfoText"> </h5>
                             <div class="ibox-tools">
-                               <div class="btn-group">
+                                <button type="button" id="skipButton" class="btn btn-danger btn-xs">skip</button>
+                                <div class="btn-group">
                                     <button type="button" id="privData"  class="btn btn-white btn-xs"><i  class="fa fa-chevron-left"></i></button>
                                     <button type="button" id="nextData"  class="btn btn-white btn-xs"><i  class="fa fa-chevron-right"></i></button>
                                 </div>
@@ -205,6 +206,28 @@
                 });
             }
             return true;
+        });
+        $("#skipButton").on('click',function(){
+            console.log('called')
+            if(addMarkings.length >= 9){
+                alert("모든 마킹이 완료된 페이지입니다.")
+            }else{
+                console.log('called2')
+                $.ajax({
+                    type: 'post',
+                    url: '/project/insertMarkings',
+                    dataType : 'json',
+                    data : JSON.stringify({ point : 999, userId: $.cookie("user") , dataId: dataId, pointId:pointId + 1, pageNo: 1 }),
+                    contentType : "application/json; charset=UTF-8",
+                }).always(function(data){
+                    doPlot("right");
+                    if(data.status==200){
+                        getData()
+                    }else{
+
+                    }
+                });
+            }
         });
 
 

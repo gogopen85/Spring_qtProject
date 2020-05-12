@@ -29,7 +29,7 @@
                         <div class="ibox-title">
                             <h5 id="dataInfoText"> </h5>
                             <div class="ibox-tools">
-
+                                <button type="button" id="skipButton" class="btn btn-danger btn-xs">skip</button>
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                     <i class="fa fa-wrench"></i>
                                 </a>
@@ -217,6 +217,28 @@
             return true;
         });
 
+        $("#skipButton").on('click',function(){
+            console.log('called')
+            if(addMarkings.length >= 9){
+                alert("모든 마킹이 완료된 페이지입니다.")
+            }else{
+                console.log('called2')
+                $.ajax({
+                    type: 'post',
+                    url: '/project/insertMarkings',
+                    dataType : 'json',
+                    data : JSON.stringify({ point : 999, userId: $.cookie("user") , dataId: dataId, pointId:pointId + 1, pageNo: 2, checkedUserId: checkedUserId }),
+                    contentType : "application/json; charset=UTF-8",
+                }).always(function(data){
+                    doPlot("right");
+                    if(data.status==200){
+                        getData()
+                    }else{
+
+                    }
+                });
+            }
+        });
 
         $("#confirmData").click(function(){
             $.ajax({
