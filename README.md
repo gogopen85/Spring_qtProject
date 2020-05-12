@@ -16,5 +16,5 @@ localhost:8091/swagger-ui.html
 
 ## Docker
 ```
-docker pull gogopen85/springbootdemo:v0.1
+docker pull gogopen85/ecg-project:v0.3
 ```
