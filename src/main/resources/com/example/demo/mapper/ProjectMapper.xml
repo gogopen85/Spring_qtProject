@@ -176,7 +176,7 @@
         WHERE
              1=1
             <if test='pageNo.equals("0")'>
-                and id not in (select dataId from qtProject.[dataInfo] where userId = #{userId} and status in (1,99))
+                and id not in (select dataId from qtProject.[dataInfo] where status in (1,99))
             </if>
             <if test='pageNo.equals("1")'>
                 and id in (select dataId FROM (select dataId,ROW_NUMBER() OVER( ORDER BY id) AS NUM from qtProject.[dataInfo] where userId = #{userId} and status in (1,99) )as  T1 where NUM=#{projectNo})

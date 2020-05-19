@@ -110,7 +110,6 @@
             }, {
                 data: y,
                 label: "markings",
-                yaxis: 2
             }], {
                 yaxes: [ {
                     alignTicksWithAxis: position == "right" ? 1 : null,
@@ -125,7 +124,7 @@
                     color: "#999999",
                     hoverable: true,
                     clickable: true,
-                    tickColor: "#D4D4D4",
+                    //tickColor: "#D4D4D4",
                     borderWidth:0,
                     show:true,
                     markings: []
@@ -257,7 +256,7 @@
                 type: 'post',
                 url: '/project/confirmData',
                 dataType : 'json',
-                data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, status: 99}),
+                data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, status: 99, pageNo: 0}),
                 contentType : "application/json; charset=UTF-8",
             }).always(function(data){
                 doPlot("right");

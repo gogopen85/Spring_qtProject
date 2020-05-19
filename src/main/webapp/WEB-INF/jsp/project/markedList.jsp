@@ -124,7 +124,7 @@
                     color: "#999999",
                     hoverable: true,
                     clickable: true,
-                    tickColor: "#D4D4D4",
+                    //tickColor: "#D4D4D4",
                     borderWidth:0,
                     show:true,
                     markings: []
