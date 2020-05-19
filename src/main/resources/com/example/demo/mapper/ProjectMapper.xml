@@ -61,15 +61,21 @@
             userId = #{userId}
             AND deleted = 0
         </if>
-        <if test='pageNo.equals("2")'>
-            AND userId = #{checkedUserId}
-            AND deleted = 0
-        </if>
         <if test='pageNo.equals("count")'>
             AND userId = #{checkedUserId}
         </if>
-
     </select>
+    <select id="getConfirmMarkings"
+            parameterType="java.util.Map"
+            resultType="com.example.demo.entities.ConfirmMarkings">
+        SELECT
+        *
+        FROM
+        qtProject.[ConfirmMarkings]
+        WHERE
+        dataId = #{dataId}
+    </select>
+
 
 
     <insert id="insertMarkings"
@@ -84,24 +90,40 @@
             parameterType="java.util.Map">
         INSERT
         INTO
-            qtProject.[Markings] (dataId,point,pointId,userId,confirmUserId)
+            qtProject.[ConfirmMarkings] (dataId,point,pointId,userId)
                 VALUES
-            (#{dataId},#{point},#{pointId},#{checkedUserId},#{userId})
+            (#{dataId},#{point},#{pointId},#{userId})
     </insert>
 
-    <update id="deleteMarkingsConfirm"
+    <insert id="saveComment"
             parameterType="java.util.Map">
-        UPDATE
-            qtProject.[Markings]
-        SET
-            deleted=1, confirmUserId = #{userId}
+        INSERT
+        INTO
+            qtProject.[Board] (content, dataId, userId)
+                VALUES
+            (#{content},#{dataId},#{userId})
+    </insert>
+
+    <select id="getComments"
+            parameterType="java.util.Map"
+            resultType="com.example.demo.entities.Board">
+        SELECT * FROM qtProject.[Board] WHERE dataId = #{dataId}
+    </select>
+
+
+
+    <delete id="deleteMarkingsConfirm"
+            parameterType="java.util.Map">
+        DELETE
+        FROM
+            qtProject.[ConfirmMarkings]
         WHERE
             dataId = #{dataId}
         AND
-            userId = #{checkedUserId}
+            userId = #{userId}
         AND
             pointId = #{pointId}
-    </update>
+    </delete>
 
     <update id="updateMarkings">
         UPDATE
@@ -110,8 +132,6 @@
             deleted=0, confirmUserId = #{userId}, point =#{point}
         WHERE
             dataId = #{dataId}
-        AND
-            userId = #{checkedUserId}
         AND
             pointId = #{pointId}
     </update>
@@ -151,7 +171,7 @@
         update
               qtProject.[dataInfo]
         set status = 2
-        where dataId = #{dataId} and userId = #{checkedUserId}
+        where dataId = #{dataId}
     </update>
 
     <select id="checkIsValid"  parameterType="java.util.Map" resultType="int">
@@ -176,10 +196,10 @@
         WHERE
              1=1
             <if test='pageNo.equals("0")'>
-                and id not in (select dataId from qtProject.[dataInfo] where status in (1,99))
+                and id not in (select dataId from qtProject.[dataInfo])
             </if>
             <if test='pageNo.equals("1")'>
-                and id in (select dataId FROM (select dataId,ROW_NUMBER() OVER( ORDER BY id) AS NUM from qtProject.[dataInfo] where userId = #{userId} and status in (1,99) )as  T1 where NUM=#{projectNo})
+                and id in (select dataId FROM (select dataId,ROW_NUMBER() OVER( ORDER BY id) AS NUM from qtProject.[dataInfo] where userId = #{userId} and status =2 )as  T1 where NUM=#{projectNo})
             </if>
             <if test='pageNo.equals("2")'>
                 and id in (select Top 1 dataId from qtProject.[dataInfo] where status in (1,99) and userId != #{userId})

@@ -1,8 +1,6 @@
 package com.example.demo.mapper;
 
-import com.example.demo.entities.Data;
-import com.example.demo.entities.Markings;
-import com.example.demo.entities.Waveform_info;
+import com.example.demo.entities.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +25,8 @@ public interface ProjectMapper {
     int insertMarkingsByConfirmUser(Map map);
     Map getPath(Map map);
     int confirmDataByConfirmUser(Map map);
-
+    List<ConfirmMarkings> getConfirmMarkings(Map map);
+    int saveComment(Map map);
+    List<Board> getComments(Map map);
 
 }

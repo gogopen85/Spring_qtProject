@@ -44,6 +44,16 @@
                                 <div class="flot-chart-content" id="flot-line-chart-multi"></div>
                             </div>
                         </div>
+                        <div class="social-feed-box">
+                            <div class="col-12">
+                                <br>
+                                Comment : <br><br><input class="form-control" id="commentText"/>
+                            </div>
+
+                            <div class="social-body" id="comments">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -58,13 +68,11 @@
         var x = [];
         var y = [];
         var addMarkings = [];
+        var confirmMarkings = [];
         var dataId;
         var pointId=1;
         var projectNo = 1;
         getData()
-
-
-
         function getData(){
             $.ajax({
                 type: 'get',
@@ -76,6 +84,7 @@
                 x = data.data;
                 dataId = data.dataId
                 addMarkings = [];
+                confirmMarkings =[];
                 pointId = data.point.length
                 for(var i = 0; i < data.markingsInfo.length; i ++) {
                     var btnClass = ""
@@ -96,6 +105,15 @@
                 for(var i=0; i<point.length; i++) {
                     addMarkings.push(data.point[i].point)
                 }
+                for(var i=0 ; i < data.confirmPoint.length; i ++){
+                    confirmMarkings.push(data.confirmPoint[i].point)
+                    console.log(data.confirmPoint)
+                }
+                var comments = ''
+                for(var i=0 ; i < data.comments.length; i ++){
+                    comments += '<br><p>' + data.comments[i].content + '</p>'
+                }
+                $("#comments").html(comments)
                 doPlot("right");
             })
         }
@@ -138,7 +156,6 @@
                 }
 
             });
-
             if(addMarkings != undefined) {
                 for (var i = 0; i < addMarkings.length; i++) {
                     customPlot.getOptions().grid.markings.push({
@@ -146,9 +163,17 @@
                         color: "#ff8888"
                     });
                 }
-                customPlot.setupGrid();
-                customPlot.draw();
             }
+            if(confirmMarkings != undefined ) {
+                for (var i = 0; i < confirmMarkings.length; i++) {
+                    customPlot.getOptions().grid.markings.push({
+                        xaxis: {from: confirmMarkings[i], to: confirmMarkings[i]},
+                        color: "#0404B4"
+                    });
+                }
+            }
+            customPlot.setupGrid();
+            customPlot.draw();
         }
 
         doPlot("right");
@@ -244,11 +269,6 @@
 
 
     });
-
-
-
 </script>
-
-
 </body>
 </html>

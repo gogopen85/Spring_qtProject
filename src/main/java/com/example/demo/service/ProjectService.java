@@ -30,11 +30,9 @@ public class ProjectService {
 
         //project Folder path
         Map wi = projectMapper.getPath(map);
-
         if(wi.get("userId") != null && !wi.get("userId").toString().equals("")){
             map.put("checkedUserId",wi.get("userId"));
         }
-
         List<File> files = (List<File>) FileUtils.listFiles(new File(wi.get("filepath").toString()), null, true);
 
         for(int i=0; i<files.size();i++){
@@ -46,10 +44,12 @@ public class ProjectService {
                     list_.add(j, temp);
                 }
 
-                map.put("data", list_);
-                map.put("point", projectMapper.getMarkings(map));
-                map.put("markingsInfo", projectMapper.getMarkingsInfo());
-                return map;
+            map.put("data", list_);
+            map.put("point", projectMapper.getMarkings(map));
+            map.put("confirmPoint", projectMapper.getConfirmMarkings(map));
+            map.put("markingsInfo", projectMapper.getMarkingsInfo());
+            map.put("comments", projectMapper.getComments(map));
+            return map;
         }
         return map;
     }
@@ -61,18 +61,15 @@ public class ProjectService {
 
     public int insertMarkings(Map map){
         if(Integer.parseInt(map.get("pageNo").toString())==2){
-            map.put("pageNo","count");
-            List<Markings> list = projectMapper.getMarkings(map);
-            map.put("pageNo","2");
-            if(list.size() <= Integer.parseInt(map.get("pointId").toString()) && Integer.parseInt(map.get("pointId").toString())!=1) {
-                return projectMapper.insertMarkingsByConfirmUser(map);
-            } else {
-                return projectMapper.updateMarkings(map);
-            }
+            return projectMapper.insertMarkingsByConfirmUser(map);
         } else {
             map.put("checkedUserId",null);
             return projectMapper.insertMarkings(map);
         }
+    }
+
+    public int saveComment(Map map){
+        return projectMapper.saveComment(map);
     }
 
     public int deleteMarkings(Map map){

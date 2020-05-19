@@ -1,16 +1,12 @@
 package com.example.demo.entities;
 
-
-import org.hibernate.annotations.ColumnDefault;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Markings {
-
+public class ConfirmMarkings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,8 +15,14 @@ public class Markings {
     private int point;
     private String userId;
 
-    @ColumnDefault("0")
-    private int deleted;
+    public ConfirmMarkings(String dataId, int pointId, int point, String userId) {
+        this.dataId = dataId;
+        this.pointId = pointId;
+        this.point = point;
+        this.userId = userId;
+    }
+    public ConfirmMarkings() {
+    }
 
     public Long getId() {
         return id;
@@ -62,32 +64,5 @@ public class Markings {
         this.userId = userId;
     }
 
-    public int getDeleted() {
-        return deleted;
-    }
 
-    public void setDeleted(int deleted) {
-        this.deleted = deleted;
-    }
-
-    public Markings(String dataId, int point) {
-        this.dataId = dataId;
-        this.point = point;
-    }
-
-    public Markings(String dataId, int point, String userId) {
-        this.dataId = dataId;
-        this.point = point;
-        this.userId = userId;
-    }
-
-    public Markings(String dataId, int pointId, int point, String userId) {
-        this.dataId = dataId;
-        this.pointId = pointId;
-        this.point = point;
-        this.userId = userId;
-    }
-
-    public Markings() {
-    }
 }

@@ -48,7 +48,7 @@ public class HomeController {
         return "/project/myProject";
     }
 
-    @RequestMapping("/project/markedList")
+    @RequestMapping("/project/feedback")
     public String markedList(){
         return "/project/markedList";
     }

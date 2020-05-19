@@ -58,6 +58,13 @@ public class ProjectController {
         return res.resSuccess("success");
     }
 
+    @PostMapping(value="saveComment")
+    public ResponseEntity<?> saveComment(@RequestBody Map map){
+        projectService.saveComment(map);
+        return res.resSuccess("success");
+    }
+
+
     @PostMapping(value="deleteMarkings")
     public ResponseEntity<?> deleteMarkings(@RequestBody Map map){
         projectService.deleteMarkings(map);

@@ -1,5 +1,7 @@
 <%--네비 영역--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
@@ -37,17 +39,16 @@
             </li>--%>
             <li>
                 <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Project</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li><a href="/project/myProject">Marking Workspace</a></li>
-                    <li><a href="/project/markedList">Marked project</a></li>
-                    <li><a href="/project/confirmProject">Confirm project</a></li>
-                    <%--<li class="active"><a href="graph_morris.html">Morris.js Charts</a></li>
-                    <li><a href="graph_rickshaw.html">Rickshaw Charts</a></li>
-                    <li><a href="graph_chartjs.html">Chart.js</a></li>
-                    <li><a href="graph_chartist.html">Chartist</a></li>
-                    <li><a href="c3.html">c3 charts</a></li>
-                    <li><a href="graph_peity.html">Peity Charts</a></li>
-                    <li><a href="graph_sparkline.html">Sparkline Charts</a></li>--%>
+                <ul class="nav nav-second-level" id="projectNav">
+                    <c:choose>
+                        <c:when test="${cookie.user.value eq 'admin'}">
+                            <li><a href="/project/confirmProject">Confirm</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li><a href="/project/myProject">Marking</a></li>
+                            <li><a href="/project/feedback">Feedback</a></li>
+                        </c:otherwise>
+                    </c:choose>
                 </ul>
             </li>
             <%--<li>

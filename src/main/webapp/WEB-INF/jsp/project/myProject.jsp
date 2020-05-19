@@ -30,18 +30,12 @@
                             <h5 id="dataInfoText"> </h5>
                             <div class="ibox-tools">
                                 <button type="button" id="skipButton" class="btn btn-danger btn-xs">skip</button>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                    <ul class="dropdown-menu dropdown-user">
-                                        <li><a href="#" id="confirmData" class="dropdown-item">저장하기</a></li>
-                                        <li><a href="#" id="refuseData" class="dropdown-item">식별불가</a></li>
-                                    </ul>
-
+                                <button type="button" id="confirmData" class="btn btn-success btn-xs">저장</button>
+                                <button type="button" id="refuseData" class="btn btn-default btn-xs">식별불가</button>
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <div id="pointInfo">
+                            <div id="pointInfo" >
 
                             </div>
                             <div class="flot-chart">
@@ -138,7 +132,6 @@
                 }
 
             });
-
             if(addMarkings != undefined) {
                 for (var i = 0; i < addMarkings.length; i++) {
                     customPlot.getOptions().grid.markings.push({

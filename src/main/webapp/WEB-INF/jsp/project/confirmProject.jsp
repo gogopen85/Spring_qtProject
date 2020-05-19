@@ -30,14 +30,7 @@
                             <h5 id="dataInfoText"> </h5>
                             <div class="ibox-tools">
                                 <button type="button" id="skipButton" class="btn btn-danger btn-xs">skip</button>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                    <ul class="dropdown-menu dropdown-user">
-                                        <li><a href="#" id="confirmData" class="dropdown-item">확정</a></li>
-                                        <li><a href="#" id="refuseData" class="dropdown-item">반려</a></li>
-                                    </ul>
-
+                                <button type="button" id="confirmData" class="btn btn-success btn-xs">확정</button>
                             </div>
                         </div>
                         <div class="ibox-content">
@@ -46,6 +39,16 @@
                             </div>
                             <div class="flot-chart">
                                 <div class="flot-chart-content" id="flot-line-chart-multi"></div>
+                            </div>
+                        </div>
+                        <div class="social-feed-box">
+                            <div class="col-12">
+                                <br>
+                                Comment : <br><br><input class="form-control" id="commentText"/>
+                            </div>
+
+                            <div class="social-body" id="comments">
+
                             </div>
                         </div>
                     </div>
@@ -62,9 +65,9 @@
         var x = [];
         var y = [];
         var addMarkings = [];
+        var confirmMarkings = [];
         var dataId;
         var pointId=1;
-        var checkedUserId=0;
 
         getData()
 
@@ -79,20 +82,16 @@
                 x = data.data;
                 dataId = data.dataId
                 addMarkings = [];
-                pointId = data.point.length
-
-                if(pointId>0){
-                    checkedUserId = data.point[0].userId
-                }
+                confirmMarkings =[];
+                pointId = data.confirmPoint.length
 
                 for(var i = 0; i < data.markingsInfo.length; i ++) {
                     var btnClass = ""
-                    if(i == data.point.length){
+                    if(i == data.confirmPoint.length){
                         btnClass = "btn btn-w-m btn-primary"
                     }else {
                         btnClass = "btn btn-w-m btn-default"
                     }
-
                     html += '<button type="button" class="'+ btnClass +'" id="markinsInfo_'+ data.markingsInfo[i].id+ '">'+data.markingsInfo[i].name+'</button>'
                 }
 
@@ -104,6 +103,14 @@
                 for(var i=0; i<point.length; i++) {
                     addMarkings.push(data.point[i].point)
                 }
+                for(var i=0 ; i < data.confirmPoint.length; i ++){
+                    confirmMarkings.push(data.confirmPoint[i].point)
+                }
+                var comments = ''
+                for(var i=0 ; i < data.comments.length; i ++){
+                    comments += '<br><p>' + data.comments[i].content + '</p>'
+                }
+                $("#comments").html(comments)
                 doPlot("right");
             })
         }
@@ -147,16 +154,24 @@
 
             });
 
-            if(addMarkings != undefined) {
+            if(addMarkings != undefined ) {
                 for (var i = 0; i < addMarkings.length; i++) {
                     customPlot.getOptions().grid.markings.push({
                         xaxis: {from: addMarkings[i], to: addMarkings[i]},
                         color: "#ff8888"
                     });
                 }
-                customPlot.setupGrid();
-                customPlot.draw();
             }
+            if(confirmMarkings != undefined ) {
+                for (var i = 0; i < confirmMarkings.length; i++) {
+                    customPlot.getOptions().grid.markings.push({
+                        xaxis: {from: confirmMarkings[i], to: confirmMarkings[i]},
+                        color: "#0404B4"
+                    });
+                }
+            }
+            customPlot.setupGrid();
+            customPlot.draw();
         }
 
         doPlot("right");
@@ -174,7 +189,7 @@
                         type: 'post',
                         url: '/project/insertMarkings',
                         dataType : 'json',
-                        data : JSON.stringify({ point : item.datapoint[0], userId: $.cookie("user") , dataId: dataId, pointId:pointId + 1, pageNo: 2, checkedUserId: checkedUserId }),
+                        data : JSON.stringify({ point : item.datapoint[0], userId: $.cookie("user") , dataId: dataId, pointId:pointId + 1, pageNo: 2}),
                         contentType : "application/json; charset=UTF-8",
                     }).always(function(data){
                         doPlot("right");
@@ -196,13 +211,12 @@
             e.preventDefault();
         });
         $(document).mousedown(function(e){
-            console.log('working')
             if( e.button == 2 ) {
                 $.ajax({
                     type: 'post',
                     url: '/project/deleteMarkings',
                     dataType : 'json',
-                    data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, pointId : pointId, pageNo: 2, checkedUserId: checkedUserId}),
+                    data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, pointId : pointId, pageNo: 2}),
                     contentType : "application/json; charset=UTF-8",
                 }).always(function(data){
                     doPlot("right");
@@ -216,18 +230,34 @@
             }
             return true;
         });
-
-        $("#skipButton").on('click',function(){
-            console.log('called')
-            if(addMarkings.length >= 9){
-                alert("모든 마킹이 완료된 페이지입니다.")
-            }else{
-                console.log('called2')
+        $(document).keypress(function(e) {
+            if ( e.which == 47) {
                 $.ajax({
                     type: 'post',
                     url: '/project/insertMarkings',
                     dataType : 'json',
-                    data : JSON.stringify({ point : 999, userId: $.cookie("user") , dataId: dataId, pointId:pointId + 1, pageNo: 2, checkedUserId: checkedUserId }),
+                    data : JSON.stringify({ point : 900, userId: $.cookie("user") , dataId: dataId, pointId:pointId + 1, pageNo: 2 }),
+                    contentType : "application/json; charset=UTF-8",
+                }).always(function(data){
+                    doPlot("right");
+                    if(data.status==200){
+                        getData()
+                    }else{
+
+                    }
+                });
+            }
+            return true
+        })
+        $("#skipButton").on('click',function(){
+            if(addMarkings.length >= 9){
+                alert("모든 마킹이 완료된 페이지입니다.")
+            }else{
+                $.ajax({
+                    type: 'post',
+                    url: '/project/insertMarkings',
+                    dataType : 'json',
+                    data : JSON.stringify({ point : 999, userId: $.cookie("user") , dataId: dataId, pointId:pointId + 1, pageNo: 2 }),
                     contentType : "application/json; charset=UTF-8",
                 }).always(function(data){
                     doPlot("right");
@@ -239,13 +269,36 @@
                 });
             }
         });
+        $("#commentText").keypress(function(e) {
+            if(e.keyCode == 13 && $.trim($("#commentText").val())!='') {
+                $.ajax({
+                    type: 'post',
+                    url: '/project/saveComment',
+                    dataType : 'json',
+                    data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, content: $("#commentText").val(), pageNo: 2}),
+                    contentType : "application/json; charset=UTF-8",
+                }).always(function(data){
+                    $("#commentText").val('')
+                    doPlot("right");
+                    if(data.status==200){
+                        getData()
+                        return false;
+                    }else{
+
+                    }
+                });
+            }
+        })
+
+
+
 
         $("#confirmData").click(function(){
             $.ajax({
                 type: 'post',
                 url: '/project/confirmData',
                 dataType : 'json',
-                data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, status: 2,checkedUserId: checkedUserId, pageNo: 2}),
+                data : JSON.stringify({ userId: $.cookie("user"), dataId: dataId, status: 2, pageNo: 2}),
                 contentType : "application/json; charset=UTF-8",
             }).always(function(data){
                 doPlot("right");
