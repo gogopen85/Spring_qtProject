@@ -34,9 +34,9 @@ public class ProjectService {
             map.put("checkedUserId",wi.get("userId"));
         }
         List<File> files = (List<File>) FileUtils.listFiles(new File(wi.get("filepath").toString()), null, true);
-
+        projectMapper.updateFlag(wi);
         for(int i=0; i<files.size();i++){
-            map.put("dataId",wi.get("id"));
+                map.put("dataId",wi.get("id"));
                 List<Integer> list = getCsvFile(files.get(i).toString());
                 List<int []> list_ = new ArrayList<>();
                 for(int j = 0 ; j<list.size(); j++ ){

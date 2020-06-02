@@ -16,15 +16,17 @@ public class Waveform_info {
     private String endtime;
     private String wavetype;
     private String filepath;
+    private int flag;
 
     public Waveform_info() {}
 
-    public Waveform_info(String patient_id, String starttime, String endtime, String wavetype, String filepath) {
+    public Waveform_info(String patient_id, String starttime, String endtime, String wavetype, String filepath, int flag) {
         this.patient_id = patient_id;
         this.starttime = starttime;
         this.endtime = endtime;
         this.wavetype = wavetype;
         this.filepath = filepath;
+        this.flag = flag;
     }
 
     public Long getId() {
@@ -73,5 +75,13 @@ public class Waveform_info {
 
     public void setFilepath(String filepath) {
         this.filepath = filepath;
+    }
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
     }
 }

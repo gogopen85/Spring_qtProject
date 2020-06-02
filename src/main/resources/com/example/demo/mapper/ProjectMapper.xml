@@ -196,7 +196,7 @@
         WHERE
              1=1
             <if test='pageNo.equals("0")'>
-                and id not in (select dataId from qtProject.[dataInfo])
+                and id not in (select dataId from qtProject.[dataInfo]) and flag != 1
             </if>
             <if test='pageNo.equals("1")'>
                 and id in (select dataId FROM
@@ -230,5 +230,9 @@
 WHERE NUM = #{projectNo};
 
     </select>
+
+    <update id="updateFlag" parameterType="java.util.Map">
+        update qtProject.Waveform_info set flag = 1 where id = #{id}
+    </update>
 
 </mapper>

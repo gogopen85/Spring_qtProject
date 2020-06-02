@@ -29,4 +29,6 @@ public interface ProjectMapper {
     int saveComment(Map map);
     List<Board> getComments(Map map);
 
+    int updateFlag(Map map);
+
 }
