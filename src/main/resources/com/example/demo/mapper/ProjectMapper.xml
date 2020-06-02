@@ -199,7 +199,23 @@
                 and id not in (select dataId from qtProject.[dataInfo])
             </if>
             <if test='pageNo.equals("1")'>
-                and id in (select dataId FROM (select dataId,ROW_NUMBER() OVER( ORDER BY id) AS NUM from qtProject.[dataInfo] where userId = #{userId} and status =2 )as  T1 where NUM=#{projectNo})
+                and id in (select dataId FROM
+                                (select
+                                    di.dataId,ROW_NUMBER() OVER( ORDER BY di.dataId desc) AS NUM
+                                        from qtProject.[dataInfo] as di
+                                            left join
+                                            qtProject.[Board] as b
+                                            on di.dataId = b.dataId
+                                            left join
+                                            qtProject.[ConfirmMarkings] as cf
+                                            on di.dataId = cf.dataId
+                                            where b.content is not null or cf.point is not null and
+                                            di.userId = #{userId} and di.status =2
+                                            group by di.dataId
+                                )
+                            as  T1 where NUM=#{projectNo}
+
+                )
             </if>
             <if test='pageNo.equals("2")'>
                 and id in (select Top 1 dataId from qtProject.[dataInfo] where status in (1,99) and userId != #{userId})
