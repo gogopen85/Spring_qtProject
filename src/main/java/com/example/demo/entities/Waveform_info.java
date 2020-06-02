@@ -16,11 +16,11 @@ public class Waveform_info {
     private String endtime;
     private String wavetype;
     private String filepath;
-    private int flag;
+    private String flag;
 
     public Waveform_info() {}
 
-    public Waveform_info(String patient_id, String starttime, String endtime, String wavetype, String filepath, int flag) {
+    public Waveform_info(String patient_id, String starttime, String endtime, String wavetype, String filepath, String flag) {
         this.patient_id = patient_id;
         this.starttime = starttime;
         this.endtime = endtime;
@@ -77,11 +77,11 @@ public class Waveform_info {
         this.filepath = filepath;
     }
 
-    public int getFlag() {
+    public String getFlag() {
         return flag;
     }
 
-    public void setFlag(int flag) {
+    public void setFlag(String flag) {
         this.flag = flag;
     }
 }

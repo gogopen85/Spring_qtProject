@@ -30,5 +30,6 @@ public interface ProjectMapper {
     List<Board> getComments(Map map);
 
     int updateFlag(Map map);
+    int countMarkingsInfo();
 
 }

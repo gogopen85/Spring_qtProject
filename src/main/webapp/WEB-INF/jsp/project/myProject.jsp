@@ -58,7 +58,7 @@
         var addMarkings = [];
         var dataId;
         var pointId=1;
-
+        var countMarkingsInfo = 0;
         getData()
 
         function getData(){
@@ -73,6 +73,7 @@
                 dataId = data.dataId
                 addMarkings = [];
                 pointId = data.point.length
+                countMarkingsInfo = data.countMarkingsInfo
                 for(var i = 0; i < data.markingsInfo.length; i ++) {
                     var btnClass = ""
                     if(i == data.point.length){
@@ -152,7 +153,7 @@
 
         $("#flot-line-chart-multi").bind("plotclick", function (event, pos, item) {
             if (item) {
-                if(addMarkings.length >= 9){
+                if(addMarkings.length >= countMarkingsInfo){
                     alert("모든 마킹이 완료된 페이지입니다.")
                 }else{
                     $.ajax({
@@ -175,8 +176,7 @@
 
 
         $("#skipButton").on('click',function(){
-            console.log('called')
-                if(addMarkings.length >= 9){
+                if(addMarkings.length >= countMarkingsInfo){
                     alert("모든 마킹이 완료된 페이지입니다.")
                 }else{
                     console.log('called2')

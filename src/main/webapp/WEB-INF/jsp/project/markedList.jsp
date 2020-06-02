@@ -46,8 +46,8 @@
                         </div>
                         <div class="social-feed-box">
                             <div class="col-12">
-                                <br>
-                                Comment : <br><br><input class="form-control" id="commentText"/>
+                                <br><%--
+                                Comment : <br><br><input class="form-control" id="commentText"/>--%>
                             </div>
 
                             <div class="social-body" id="comments">
@@ -72,6 +72,7 @@
         var dataId;
         var pointId=1;
         var projectNo = 1;
+        var countMarkingsInfo =0;
         getData()
         function getData(){
             $.ajax({
@@ -86,6 +87,7 @@
                 addMarkings = [];
                 confirmMarkings =[];
                 pointId = data.point.length
+                countMarkingsInfo = data.countMarkingsInfo
                 for(var i = 0; i < data.markingsInfo.length; i ++) {
                     var btnClass = ""
                     if(i == data.point.length){
@@ -155,8 +157,7 @@
                     }
                 }
 
-            });
-            if(addMarkings != undefined) {
+            });if(addMarkings != undefined) {
                 for (var i = 0; i < addMarkings.length; i++) {
                     customPlot.getOptions().grid.markings.push({
                         xaxis: {from: addMarkings[i], to: addMarkings[i]},
@@ -184,7 +185,7 @@
 
         $("#flot-line-chart-multi").bind("plotclick", function (event, pos, item) {
             if (item) {
-                if(addMarkings.length >= 9){
+                if(addMarkings.length >= countMarkingsInfo){
                     alert("모든 마킹이 완료된 페이지입니다.")
                 }else{
                     $.ajax({
@@ -234,7 +235,7 @@
         });
         $("#skipButton").on('click',function(){
             console.log('called')
-            if(addMarkings.length >= 9){
+            if(addMarkings.length >= countMarkingsInfo){
                 alert("모든 마킹이 완료된 페이지입니다.")
             }else{
                 console.log('called2')

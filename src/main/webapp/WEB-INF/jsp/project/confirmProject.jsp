@@ -68,6 +68,7 @@
         var confirmMarkings = [];
         var dataId;
         var pointId=1;
+        var countMarkingsInfo=0;
 
         getData()
 
@@ -84,7 +85,7 @@
                 addMarkings = [];
                 confirmMarkings =[];
                 pointId = data.confirmPoint.length
-
+                countMarkingsInfo = data.countMarkingsInfo
                 for(var i = 0; i < data.markingsInfo.length; i ++) {
                     var btnClass = ""
                     if(i == data.confirmPoint.length){
@@ -182,7 +183,7 @@
 
         $("#flot-line-chart-multi").bind("plotclick", function (event, pos, item) {
             if (item) {
-                if(addMarkings.length >= 9){
+                if(addMarkings.length >= countMarkingsInfo){
                     alert("모든 마킹이 완료된 페이지입니다.")
                 }else{
                     $.ajax({
@@ -199,12 +200,7 @@
 
                         }
                     });
-
-                  /*$("button").click(function() {
-                        doPlot($(this).text());
-                    });*/
                 }
-
             }
         });
         $(this).bind("contextmenu", function(e) {
@@ -250,7 +246,7 @@
             return true
         })
         $("#skipButton").on('click',function(){
-            if(addMarkings.length >= 9){
+            if(addMarkings.length >= countMarkingsInfo){
                 alert("모든 마킹이 완료된 페이지입니다.")
             }else{
                 $.ajax({
@@ -271,7 +267,7 @@
         });
         $("#commentText").keypress(function(e) {
             if(e.keyCode == 13 && $.trim($("#commentText").val())!='') {
-                $.ajax({
+               $.ajax({
                     type: 'post',
                     url: '/project/saveComment',
                     dataType : 'json',
@@ -289,9 +285,6 @@
                 });
             }
         })
-
-
-
 
         $("#confirmData").click(function(){
             $.ajax({
@@ -311,7 +304,6 @@
             });
         })
 
-
         $("#refuseData").click(function(){
             $.ajax({
                 type: 'post',
@@ -329,14 +321,7 @@
                 }
             });
         })
-
-
     });
-
-
-
 </script>
-
-
 </body>
 </html>

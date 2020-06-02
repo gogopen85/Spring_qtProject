@@ -34,16 +34,16 @@ public class ProjectService {
             map.put("checkedUserId",wi.get("userId"));
         }
         List<File> files = (List<File>) FileUtils.listFiles(new File(wi.get("filepath").toString()), null, true);
-        projectMapper.updateFlag(wi);
+        map.put("dataId",wi.get("id"));
+        projectMapper.updateFlag(map);
         for(int i=0; i<files.size();i++){
-                map.put("dataId",wi.get("id"));
                 List<Integer> list = getCsvFile(files.get(i).toString());
                 List<int []> list_ = new ArrayList<>();
                 for(int j = 0 ; j<list.size(); j++ ){
                     int temp[] = {j, list.get(j)};
                     list_.add(j, temp);
                 }
-
+            map.put("countMarkingsInfo", projectMapper.countMarkingsInfo());
             map.put("data", list_);
             map.put("point", projectMapper.getMarkings(map));
             map.put("confirmPoint", projectMapper.getConfirmMarkings(map));
