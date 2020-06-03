@@ -183,7 +183,7 @@
 
         $("#flot-line-chart-multi").bind("plotclick", function (event, pos, item) {
             if (item) {
-                if(addMarkings.length >= countMarkingsInfo){
+                if(confirmMarkings.length >= countMarkingsInfo){
                     alert("모든 마킹이 완료된 페이지입니다.")
                 }else{
                     $.ajax({
@@ -246,7 +246,7 @@
             return true
         })
         $("#skipButton").on('click',function(){
-            if(addMarkings.length >= countMarkingsInfo){
+            if(confirmMarkings.length >= countMarkingsInfo){
                 alert("모든 마킹이 완료된 페이지입니다.")
             }else{
                 $.ajax({
